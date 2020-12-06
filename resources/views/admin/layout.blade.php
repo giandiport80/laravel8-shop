@@ -39,7 +39,7 @@
 
 
     <!-- SLEEK CSS -->
-    <link id="sleek-css" rel="stylesheet" href="assets/css/sleek.css" />
+    <link id="sleek-css" rel="stylesheet" href="{{ asset('admin') }}/assets/css/sleek.css" />
 
     <!-- FAVICON -->
     <link href="{{ asset('admin') }}/assets/img/favicon.png" rel="shortcut icon" />
@@ -105,13 +105,13 @@
     <script src="{{ asset('admin') }}/assets/plugins/daterangepicker/daterangepicker.js"></script>
     <script>
         jQuery(document).ready(function() {
-    jQuery('input[name="dateRange"]').daterangepicker({
-    autoUpdateInput: false,
-    singleDatePicker: true,
-    locale: {
-      cancelLabel: 'Clear'
-    }
-  });
+        jQuery('input[name="dateRange"]').daterangepicker({
+        autoUpdateInput: false,
+        singleDatePicker: true,
+        locale: {
+        cancelLabel: 'Clear'
+        }
+    });
     jQuery('input[name="dateRange"]').on('apply.daterangepicker', function (ev, picker) {
       jQuery(this).val(picker.startDate.format('MM/DD/YYYY'));
     });
@@ -121,13 +121,16 @@
   });
     </script>
 
-
-
     <script src="{{ asset('admin') }}/assets/plugins/toastr/toastr.min.js"></script>
 
-
-
     <script src="{{ asset('admin') }}/assets/js/sleek.bundle.js"></script>
+
+    <script>
+        // konfirmasi button delete
+        $('.delete').on('submit', function(){
+            return confirm('Do you want to delete this?');
+        });
+    </script>
 </body>
 
 </html>

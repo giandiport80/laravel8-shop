@@ -10,4 +10,19 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected $data = [];
 }
+
+
+
+
+
+
+
+
+
+
+// h: DOKUMENTASI
+// $data
+// variable yang nantinya akan kita isi dengan controller childnya
