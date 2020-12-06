@@ -25,7 +25,7 @@
                             <td class="text-center" style="width: 3rem">{{ $categories->firstItem() - 1 + $loop->iteration }}</td>
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->slug }}</td>
-                            <td>{{ $category->parent_id }}</td>
+                            <td>{{ $category->parent ? $category->parent->name : 'Yes' }}</td>
                             <td class="text-center" style="width: 7rem">
                                 <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-success btn-sm"
                                     title="edit category">

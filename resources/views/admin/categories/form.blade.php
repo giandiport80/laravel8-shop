@@ -24,7 +24,12 @@ $formTitle = !empty($category) ? 'Update' : 'New'
                     {!! Form::label('name', 'Name') !!}
                     {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'category name...']) !!}
                 </div>
+                <div class="form-group">
+                    {!! Form::label('parent_id', 'Parent') !!}
+                    {!! General::selectMultilevel('parent_id', $categories, ['class' => 'form-control', 'selected' => !empty(old('parent_id')) ? old('parent_id') : (!empty($category['parent_id']) ? $category['parent_id'] : ''), 'placeholder' => '-- Choose Category --']) !!}
+                </div>
                 <div class="form-footer pt-3 border-top">
+                    <a href="{{ route('categories.index') }}" class="btn btn-primary btn-danger">Back</a>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
                 {!! Form::close() !!}
