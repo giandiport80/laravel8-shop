@@ -18,6 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         $this->data['categories'] = Category::orderBy('name')->paginate(10);
+
         return view('admin.categories.index', $this->data);
     }
 
@@ -29,6 +30,7 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
+
         $this->data['categories'] = $categories->toArray();
         $this->data['category'] = null;
 
@@ -44,6 +46,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $params = $request->except('_token');
+
         $params['slug'] = Str::slug($params['name']);
         $params['parent_id'] = (int) $params['parent_id'];
 
@@ -75,6 +78,7 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         $categories = Category::orderBy('name')->get();
+
         $this->data['categories'] = $categories->toArray();
         $this->data['category'] = $category;
 
@@ -91,6 +95,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $params = $request->except('_token');
+        
         $params['slug'] = Str::slug($params['name']);
         $params['parent_id'] = (int) $params['parent_id'];
 
