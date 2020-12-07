@@ -34,4 +34,10 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
     // products
     Route::resource('products', ProductController::class);
+
+    // product images
+    Route::get('products/{productID}/images', [ProductController::class, 'images']);
+    Route::get('products/{productID}/add-image', [ProductController::class, 'add_image']);
+    Route::post('products/images/{productID}', [ProductController::class, 'upload_image']);
+    Route::delete('products/images/{imageID}', [ProductController::class, 'remove_image']);
 });

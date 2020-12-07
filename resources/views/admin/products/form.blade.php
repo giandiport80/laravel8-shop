@@ -3,11 +3,24 @@
 @section('content')
 
 @php
-$formTitle = !empty($category) ? 'Update' : 'New'
+$formTitle = !empty($product) ? 'Update' : 'New'
 @endphp
 
 <div class="content">
     <div class="row">
+        <div class="col-md-4">
+            <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                    <h2>Product Menu</h2>
+                </div>
+                <div class="card-body">
+                    <nav class="nav flex-column">
+                        <a href="{{ route('products.edit', $productID) }}" class="nav-link">Product Detail</a>
+                        <a href="{{ url('admin/products/' . $productID . '/images') }}" class="nav-link">Product Images</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-8">
             <div class="card card-default">
                 <div class="card-header card-header-border-bottom">

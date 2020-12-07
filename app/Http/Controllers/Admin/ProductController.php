@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductImageRequest;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -40,6 +43,7 @@ class ProductController extends Controller
 
         $this->data['categories'] = $categories->toArray();
         $this->data['product'] = null;
+        $this->data['productID'] = 0;
         $this->data['categoryIDs'] = [];
 
         return view('admin.products.form', $this->data);
@@ -92,12 +96,18 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
+        if(empty($id)){
+            return redirect()->route('products.create');
+        }
+
+        $product = Product::findOrFail($id);
         $categories = Category::orderBy('name')->get();
 
         $this->data['categories'] = $categories->toArray();
         $this->data['product'] = $product;
+        $this->data['productID'] = $product->id;
         $this->data['categoryIDs'] = $product->categories->pluck('id')->toArray();
 
         return view('admin.products.form', $this->data);
@@ -147,6 +157,79 @@ class ProductController extends Controller
 
         return back();
     }
+
+    // k: method2 product images
+    // ============================================================================
+
+    public function images($id)
+    {
+        if(empty($id)){
+            return redirect()->route('products.create');
+        }
+
+        $product = Product::findOrFail($id);
+
+        $this->data['productID'] = $product->id;
+        $this->data['productImages'] = $product->productImages;
+
+        return view('admin.products.images', $this->data);
+    }
+
+    public function add_image($id)
+    {
+        if(empty($id)){
+            return redirect()->route('products.index');
+        }
+
+        $product = Product::findOrFail($id);
+
+        $this->data['productID'] = $id;
+        $this->data['product'] = $product;
+
+        return view('admin.products.image_form', $this->data);
+    }
+
+    public function upload_image(ProductImageRequest $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        if($request->has('image')){
+            $image = $request->file('image');
+            $name = $product->slug . '_' . time();
+            $fileName = $name . '.' . $image->getClientOriginalExtension();
+            $folder = 'uploads/images';
+            $filePath = $image->storeAs($folder, $fileName, 'public');
+
+            $params = [
+                'product_id' => $product->id,
+                'path' => $filePath
+            ];
+
+            if(ProductImage::create($params)){
+                session()->flash('success', 'Image has been uploaded!');
+            }else{
+                session()->flash('error', 'Image could not be uploaded!');
+            }
+
+            return redirect('admin/products/' . $id . '/images');
+        }
+    }
+
+    public function remove_image($id)
+    {
+        $image = ProductImage::findOrFail($id);
+
+        Storage::delete('public/' . $image->path);
+
+        if ($image->delete()) {
+            session()->flash('success', 'Image has been deleted!');
+        }
+
+        return redirect('admin/products/' . $image->product->id . '/images');
+    }
+
+    // ============================================================================
+
 }
 
 
