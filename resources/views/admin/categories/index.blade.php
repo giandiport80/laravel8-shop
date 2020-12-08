@@ -13,7 +13,7 @@
                     <table class="table table-bordered table-stripped">
                         <thead>
                             <tr class="text-center">
-                                <th>#</th>
+                                <th style="width: 3rem">#</th>
                                 <th>Name</th>
                                 <th>Slug</th>
                                 <th>Parent</th>
@@ -23,7 +23,7 @@
                         <tbody>
                             @forelse ($categories as $category)
                             <tr>
-                                <td class="text-center" style="width: 3rem">
+                                <td class="text-center">
                                     {{ $categories->firstItem() - 1 + $loop->iteration }}
                                 </td>
                                 <td>{{ $category->name }}</td>
@@ -31,7 +31,7 @@
                                 <td>{{ $category->parent ? $category->parent->name : 'Yes' }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-success btn-sm"
-                                        title="edit category">
+                                        title="edit">
                                         <span class="mdi mdi-square-edit-outline"></span>
                                     </a>
 
@@ -40,7 +40,7 @@
                                     @method("DELETE")
 
 
-                                    <button type="submit" class="btn btn-danger btn-sm" title="delete category"><span
+                                    <button type="submit" class="btn btn-danger btn-sm" title="delete"><span
                                             class="mdi mdi-trash-can-outline"></span></button>
 
                                     {!! Form::close() !!}

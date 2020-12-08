@@ -219,7 +219,9 @@ class ProductController extends Controller
     {
         $image = ProductImage::findOrFail($id);
 
-        Storage::delete('public/' . $image->path);
+        if($image->path){
+            Storage::delete('public/' . $image->path);
+        }
 
         if ($image->delete()) {
             session()->flash('success', 'Image has been deleted!');

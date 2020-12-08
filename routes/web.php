@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
@@ -40,4 +41,16 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::get('products/{productID}/add-image', [ProductController::class, 'add_image']);
     Route::post('products/images/{productID}', [ProductController::class, 'upload_image']);
     Route::delete('products/images/{imageID}', [ProductController::class, 'remove_image']);
+
+    // attributes
+    Route::resource('attributes', AttributeController::class);
+
+    // attributeOptions
+    Route::get('attributes/{attributeID}/options', [AttributeController::class, 'options'])->name('option.index');
+    Route::get('attributes/{attributeID}/add-option', [AttributeController::class, 'add_option']);
+    Route::post('attributes/options/{attributeID}', [AttributeController::class, 'store_option']);
+    Route::delete('attributes/options/{optionID}', [AttributeController::class, 'remove_option']);
+    Route::get('attributes/options/{optionID}/edit', [AttributeController::class, 'edit_option']);
+    Route::put('attributes/options/{optionID}', [AttributeController::class, 'update_option']);
+
 });
