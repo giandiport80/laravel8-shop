@@ -30,7 +30,7 @@
                                 <td>{{ $product->sku }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ number_format($product->price) }}</td>
-                                <td>{{ $product->status }}</td>
+                                <td>{{ $product->statusLabel() }}</td>
                                 <td class="text-center">
                                     <a href="{{ url('admin/products/'. $product->id .'/edit') }}"
                                         class="btn btn-success btn-sm" title="edit">
