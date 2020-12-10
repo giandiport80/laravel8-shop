@@ -14,6 +14,14 @@ class UserController extends Controller
 {
     use Authorizable;
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->data['currentAdminMenu'] = 'role-user';
+        $this->data['currentAdminSubMenu'] = 'user';
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->data['users'] = User::latest()->paginate(10);
+        $this->data['users'] = User::where('name', '!=', 'Administrator')->latest()->paginate(10);
 
         return view('admin.users.index', $this->data);
     }
@@ -102,17 +110,6 @@ class UserController extends Controller
     }
 
     // ! ============================================================================
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

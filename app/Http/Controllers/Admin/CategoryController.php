@@ -13,6 +13,14 @@ class CategoryController extends Controller
 {
     use Authorizable;
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->data['currentAdminMenu'] = 'catalog';
+        $this->data['currentAdminSubMenu'] = 'category';
+    }
+
     /**
      * Display a listing of the resource.
      *

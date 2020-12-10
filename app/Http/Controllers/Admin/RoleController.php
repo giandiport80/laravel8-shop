@@ -12,6 +12,14 @@ class RoleController extends Controller
 {
     use Authorizable;
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->data['currentAdminMenu'] = 'role-user';
+        $this->data['currentAdminSubMenu'] = 'role';
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,17 +30,10 @@ class RoleController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
 
-        return view('admin.roles.index', compact('roles', 'permissions'));
-    }
+        $this->data['roles'] = $roles;
+        $this->data['permissions'] = $permissions;
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('admin.roles.index', $this->data);
     }
 
     /**
@@ -52,28 +53,6 @@ class RoleController extends Controller
         }
 
         return redirect()->route('roles.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -98,17 +77,6 @@ class RoleController extends Controller
         $role->syncPermissions($permissions);
 
         return redirect()->route('roles.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
 

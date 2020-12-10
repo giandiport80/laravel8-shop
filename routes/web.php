@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController as ControllersProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,13 +22,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('products', [ControllersProductController::class, 'index']);
+Route::get('product/{slug}', [ControllersProductController::class, 'show']);
 
 Route::middleware('auth')->prefix('admin')->group(function(){
 
@@ -45,7 +44,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::delete('products/images/{imageID}', [ProductController::class, 'remove_image'])->name('products.remove_image');
 
     // attributes
-    Route::resource('attributes', AttributeController::class);
+    Route::resource('attributes', AttributeController::class)->except('show');
 
     // attributeOptions
     Route::get('attributes/{attributeID}/options', [AttributeController::class, 'options'])->name('attributes.options');
@@ -56,8 +55,12 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::put('attributes/options/{optionID}', [AttributeController::class, 'update_option'])->name('update_option');
 
     // users
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class)->except('show');
     // roles
-    Route::resource('roles', RoleController::class);
+    Route::resource('roles', RoleController::class)->only(['index', 'store', 'update']);
 
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

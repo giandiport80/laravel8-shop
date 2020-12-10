@@ -52,7 +52,7 @@ class Product extends Model
     // 1 product meiliki banyak variant (yg menghubungkannya parent_id)
     public function variants()
     {
-        return $this->hasMany(Product::class, 'parent_id');
+        return $this->hasMany(Product::class, 'parent_id')->orderBy('price', 'asc');
     }
 
     // 1 product dimiliki 1 parent product
@@ -70,7 +70,7 @@ class Product extends Model
     // 1 product memiliki N productImages
     public function productImages()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class)->orderBy('id', 'desc');
     }
 
     // label untuk status product
@@ -99,4 +99,29 @@ class Product extends Model
 
         return isset($this->status) ? $statuses[$this->status] : null;
     }
+
+    //
+    public function scopeActive($query) // .. 1
+    {
+        return $query->where('status', 1)
+            ->where('parent_id', null)
+            ->orderBy('created_at', 'desc');
+    }
+
+    public function priceLabel()
+    {
+        return ($this->variants->count() > 0) ? $this->variants->first()->price : $this->price;
+    }
 }
+
+
+
+
+
+
+
+
+
+// p: clue 1
+// membuat query di model yang bisa kita panggil method nya
+// dibuat dengan awalan scope + nama method nya
