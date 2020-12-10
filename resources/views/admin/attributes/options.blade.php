@@ -17,7 +17,9 @@
                             <tr class="text-center">
                                 <th style="width: 3rem">#</th>
                                 <th>Name</th>
+                                @role('Admin')
                                 <th style="width: 7rem">Action</th>
+                                @endrole
                             </tr>
                         </thead>
                         <tbody>
@@ -25,12 +27,16 @@
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $option->name }}</td>
+                                @role('Admin')
                                 <td class="text-center">
+                                    @can('edit_attributes')
                                     <a href="{{ url('admin/attributes/options/'. $option->id .'/edit') }}"
                                         class="btn btn-success btn-sm" title="edit">
                                         <span class="mdi mdi-square-edit-outline"></span>
                                     </a>
+                                    @endcan
 
+                                    @can('delete_attributes')
                                     {!! Form::open(['url' => 'admin/attributes/options/'. $option->id, 'class' =>
                                     'delete', 'style' => 'display:inline-block']) !!}
                                     {!! Form::hidden('_method', 'DELETE') !!}
@@ -38,7 +44,9 @@
                                         <span class="mdi mdi-trash-can-outline"></span>
                                     </button>
                                     {!! Form::close() !!}
+                                    @endcan
                                 </td>
+                                @endrole
                             </tr>
                             @empty
                             <tr>

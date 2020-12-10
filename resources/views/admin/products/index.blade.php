@@ -37,6 +37,7 @@
                                         <span class="mdi mdi-square-edit-outline"></span>
                                     </a>
 
+                                    @can('delete_products')
                                     {!! Form::open(['url' => 'admin/products/'. $product->id, 'class' => 'delete
                                     d-inline-block']) !!}
                                     {!! Form::hidden('_method', 'DELETE') !!}
@@ -45,6 +46,7 @@
                                         <span class="mdi mdi-trash-can-outline"></span>
                                     </button>
                                     {!! Form::close() !!}
+                                    @endcan
                                 </td>
                             </tr>
                             @empty
@@ -56,9 +58,11 @@
                     </table>
                     {{ $products->links() }}
                 </div>
+                @can('add_products')
                 <div class="card-footer text-right">
                     <a href="{{ url('admin/products/create') }}" class="btn btn-primary btn-sm">+ Add New</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>

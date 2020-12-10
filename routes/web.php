@@ -37,20 +37,20 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::resource('products', ProductController::class);
 
     // product images
-    Route::get('products/{productID}/images', [ProductController::class, 'images']);
-    Route::get('products/{productID}/add-image', [ProductController::class, 'add_image']);
-    Route::post('products/images/{productID}', [ProductController::class, 'upload_image']);
-    Route::delete('products/images/{imageID}', [ProductController::class, 'remove_image']);
+    Route::get('products/{productID}/images', [ProductController::class, 'images'])->name('products.images');
+    Route::get('products/{productID}/add-image', [ProductController::class, 'add_image'])->name('products.add_image');
+    Route::post('products/images/{productID}', [ProductController::class, 'upload_image'])->name('products.upload_image');
+    Route::delete('products/images/{imageID}', [ProductController::class, 'remove_image'])->name('products.remove_image');
 
     // attributes
     Route::resource('attributes', AttributeController::class);
 
     // attributeOptions
-    Route::get('attributes/{attributeID}/options', [AttributeController::class, 'options'])->name('option.index');
-    Route::get('attributes/{attributeID}/add-option', [AttributeController::class, 'add_option']);
-    Route::post('attributes/options/{attributeID}', [AttributeController::class, 'store_option']);
-    Route::delete('attributes/options/{optionID}', [AttributeController::class, 'remove_option']);
-    Route::get('attributes/options/{optionID}/edit', [AttributeController::class, 'edit_option']);
-    Route::put('attributes/options/{optionID}', [AttributeController::class, 'update_option']);
+    Route::get('attributes/{attributeID}/options', [AttributeController::class, 'options'])->name('attributes.options');
+    Route::get('attributes/{attributeID}/add-option', [AttributeController::class, 'add_option'])->name('attributes.add_option');
+    Route::post('attributes/options/{attributeID}', [AttributeController::class, 'store_option'])->name('store_option');
+    Route::delete('attributes/options/{optionID}', [AttributeController::class, 'remove_option'])->name('remove_option');
+    Route::get('attributes/options/{optionID}/edit', [AttributeController::class, 'edit_option'])->name('edit_option');
+    Route::put('attributes/options/{optionID}', [AttributeController::class, 'update_option'])->name('update_option');
 
 });

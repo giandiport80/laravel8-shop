@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Authorizable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
@@ -10,6 +11,8 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    use Authorizable;
+
     /**
      * Display a listing of the resource.
      *
@@ -95,7 +98,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $params = $request->except('_token');
-        
+
         $params['slug'] = Str::slug($params['name']);
         $params['parent_id'] = (int) $params['parent_id'];
 

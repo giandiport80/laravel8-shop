@@ -17,6 +17,7 @@
                                 <th>Code</th>
                                 <th>Name</th>
                                 <th>Type</th>
+
                                 <th style="width: 10rem">Action</th>
                             </tr>
                         </thead>
@@ -28,18 +29,23 @@
                                 <td>{{ $attribute->name }}</td>
                                 <td>{{ $attribute->type }}</td>
                                 <td class="text-center">
+                                    @can('edit_attributes')
                                     <a href="{{ url('admin/attributes/'. $attribute->id .'/edit') }}"
                                         class="btn btn-success btn-sm" title="edit">
                                         <span class="mdi mdi-square-edit-outline"></span>
                                     </a>
+                                    @endcan
 
+                                    @can('add_attributes')
                                     @if ($attribute->type == 'select')
                                     <a href="{{ url('admin/attributes/'. $attribute->id .'/options') }}"
                                         class="btn btn-info btn-sm" title="option">
                                         <span class="mdi mdi-settings"></span>
                                     </a>
                                     @endif
+                                    @endcan
 
+                                    @can('delete_attributes')
                                     {!! Form::open(['url' => 'admin/attributes/'. $attribute->id, 'class' => 'delete',
                                     'style' => 'display:inline-block']) !!}
                                     {!! Form::hidden('_method', 'DELETE') !!}
@@ -47,6 +53,7 @@
                                         <span class="mdi mdi-trash-can-outline"></span>
                                     </button>
                                     {!! Form::close() !!}
+                                    @endcan
                                 </td>
                             </tr>
                             @empty
@@ -58,9 +65,11 @@
                     </table>
                     {{ $attributes->links() }}
                 </div>
+                @can('add_attributes')
                 <div class="card-footer text-right">
                     <a href="{{ url('admin/attributes/create') }}" class="btn btn-primary btn-sm">+ Add New</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Authorizable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AttributeOptionRequest;
 use App\Http\Requests\AttributeRequest;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 
 class AttributeController extends Controller
 {
+    use Authorizable;
+
     public function __construct()
     {
         $this->data['types'] = Attribute::types();
@@ -181,7 +184,7 @@ class AttributeController extends Controller
             session()->flash('success', 'Option has been updated!');
         }
 
-        return redirect()->route('option.index', $option->attribute->id);
+        return redirect()->route('attributes.options', $option->attribute->id);
     }
 
     public function remove_option($optionID)
@@ -196,11 +199,7 @@ class AttributeController extends Controller
             session()->flash('success', 'Option has been deleted!');
         }
 
-        return redirect()->route('option.index', $option->attribute->id);
-
-        $option = AttributeOption::findOrFail($optionID);
-
-
+        return redirect()->route('attributes.options', $option->attribute->id);
     }
 
     // ============================================================================

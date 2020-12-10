@@ -17,7 +17,9 @@
                                 <th>Name</th>
                                 <th>Slug</th>
                                 <th>Parent</th>
+                                @role('Admin')
                                 <th style="width: 7rem">Action</th>
+                                @endrole
                             </tr>
                         </thead>
                         <tbody>
@@ -29,12 +31,16 @@
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->slug }}</td>
                                 <td>{{ $category->parent ? $category->parent->name : 'Yes' }}</td>
+                                @role('Admin')
                                 <td class="text-center">
+                                    @can('edit_categories')
                                     <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-success btn-sm"
                                         title="edit">
                                         <span class="mdi mdi-square-edit-outline"></span>
                                     </a>
+                                    @endcan
 
+                                    @can('delete_categories')
                                     {!! Form::open(['route' => ['categories.destroy', $category], 'class' => 'delete
                                     d-inline-block']) !!}
                                     @method("DELETE")
@@ -44,7 +50,9 @@
                                             class="mdi mdi-trash-can-outline"></span></button>
 
                                     {!! Form::close() !!}
+                                    @endcan
                                 </td>
+                                @endrole
                             </tr>
                             @empty
                             <tr>
@@ -56,9 +64,11 @@
 
                     {{ $categories->links() }}
                 </div>
+                @can('add_categories')
                 <div class="card-footer text-right">
                     <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm">+ Add New</a>
                 </div>
+                @endcan
             </div>
         </div>
     </div>

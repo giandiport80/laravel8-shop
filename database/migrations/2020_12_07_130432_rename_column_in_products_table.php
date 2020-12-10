@@ -26,7 +26,7 @@ class RenameColumnInProductsTable extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->renameColumn('lenght', 'depth');
+            $table->renameColumn('length', 'depth');
         });
     }
 }
