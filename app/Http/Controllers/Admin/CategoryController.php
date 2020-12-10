@@ -80,7 +80,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where('id', '!=', $category->id)->orderBy('name')->get();
 
         $this->data['categories'] = $categories->toArray();
         $this->data['category'] = $category;

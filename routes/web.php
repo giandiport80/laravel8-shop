@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -52,5 +54,10 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::delete('attributes/options/{optionID}', [AttributeController::class, 'remove_option'])->name('remove_option');
     Route::get('attributes/options/{optionID}/edit', [AttributeController::class, 'edit_option'])->name('edit_option');
     Route::put('attributes/options/{optionID}', [AttributeController::class, 'update_option'])->name('update_option');
+
+    // users
+    Route::resource('users', UserController::class);
+    // roles
+    Route::resource('roles', RoleController::class);
 
 });
