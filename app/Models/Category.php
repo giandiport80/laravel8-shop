@@ -33,6 +33,28 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class, 'product_categories');
     }
+
+    // query mencari category bedaraskan parent category
+    public function scopeParentCategories($query)
+    {
+        return $query->where('parent_id', 0);
+    }
+
+    // query mengikutsertakan child category berdasarkan parent category nya
+    public static function childIds($parentId = 0)
+    {
+        $categories = Category::select('id', 'name', 'parent_id')->where('parent_id', $parentId)->get()->toArray();
+
+        $childIds = [];
+        if (!empty($categories)) {
+            foreach ($categories as $category) {
+                $childIds[] = $category['id'];
+                $childIds = array_merge($childIds, Category::childIds($category['id']));
+            }
+        }
+
+        return $childIds;
+    }
 }
 
 

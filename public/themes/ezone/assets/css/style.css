@@ -4,11 +4,11 @@
     Description: This is html5 template
     Author: HasTech
     Version: 1.0
-    
+
 -----------------------------------------------------------------------------------
-    
-    [Table of contents] 
-	
+
+    [Table of contents]
+
     1. Template default css (assets/css/bundle.css)
     2. index page
         2.1 Header sidebar
@@ -22,7 +22,7 @@
         2.9 Brand logo style
         2.10 Banner 3 style
         2.11 Instafeed style
-        2.12 Footer style 
+        2.12 Footer style
     3. Book page
         3.1 Header style of book
         3.2 Menu style of book
@@ -34,7 +34,7 @@
         3.8 Blog style book
         3.9 Subscribe style book
         3.10 Footer style of book
-        
+
     4. Electronics page
         4.1 Header style of electronics
         4.2 Menu style of electronics
@@ -115,7 +115,7 @@
         23.11 Newsletter style of fruits
         23.12 Footer style of fruits
     24. Modal style
-    
+
 -----------------------------------------------------------------------------------*/
 
 
@@ -2918,7 +2918,7 @@ a.banner-book-style-btn:hover {
     animation: 700ms ease-in-out 0s normal none 1 running fadeInUp;
 }
 
-    
+
 .furits-banner-wrapper ,
 .discount-wrapper {
   cursor: pointer;
@@ -3164,7 +3164,7 @@ a.banner-book-style-btn:hover {
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
-    
+
 }
 .androit-banner-content > a:hover {
     color: #ccc;
@@ -5687,7 +5687,7 @@ a.icon-cart-furniture.food-cart span {
     top: 60px;
 }
 
-/* 10.2 Slider style of food */ 
+/* 10.2 Slider style of food */
 
 .owl-carousel .owl-item .food-slider img {
     display: inline-block;
@@ -5725,7 +5725,7 @@ a.icon-cart-furniture.food-cart span {
     padding: 0 236px 0 202px;
 }
 
-/* 10.3 Product style of food */ 
+/* 10.3 Product style of food */
 
 .popular-product-wrapper {
     display: flex;
@@ -5810,7 +5810,7 @@ a.icon-cart-furniture.food-cart span {
     width: 1px;
 }
 
-/* 10.4 Service style of food */ 
+/* 10.4 Service style of food */
 
 .single-food-services img , .single-food-services p , .single-food-services h4 {
   z-index: 99;
@@ -5867,7 +5867,7 @@ a.icon-cart-furniture.food-cart span {
     z-index: 9;
 }
 
-/* 10.5 Foot menu style of food */ 
+/* 10.5 Foot menu style of food */
 
 .food-menu-list {
     display: flex;
@@ -5961,7 +5961,7 @@ a.icon-cart-furniture.food-cart span {
     border-radius: 50px;
 }
 
-/* 10.6 Banner style of food */ 
+/* 10.6 Banner style of food */
 
 .food-banner-wrapper {
     position: relative;
@@ -6041,7 +6041,7 @@ a.icon-cart-furniture.food-cart span {
     width: 100%;
 }
 
-/* 10.7 Testimonial style of food */ 
+/* 10.7 Testimonial style of food */
 
 .single-testimonial-3 {
     position: relative;
@@ -6148,7 +6148,7 @@ a.icon-cart-furniture.food-cart span {
     width: 97%;
 }
 
-/* 10.8 Subscribe style of food */ 
+/* 10.8 Subscribe style of food */
 
 .subscribe-form-7 input {
     background: transparent none repeat scroll 0 0;
@@ -6186,7 +6186,7 @@ a.icon-cart-furniture.food-cart span {
     padding: 0 0 0 38px;
 }
 
-/* 10.9 Footer style of food */ 
+/* 10.9 Footer style of food */
 
 .food-about > p {
     color: #fcfcfc;
@@ -7365,7 +7365,7 @@ h5.panel-title {
     height: inherit;
     line-height: 1;
     padding-left: 0;
-    width: 113px;
+    width: 250px;
 }
 .shop-tab a {
     color: #6c6c6c;

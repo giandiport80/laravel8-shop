@@ -64,7 +64,7 @@ class Product extends Model
     // 1 product memiliki N productAttributeValues
     public function productAttributeValues()
     {
-        return $this->hasMany(ProductAttributeValue::class);
+        return $this->hasMany(ProductAttributeValue::class, 'parent_product_id');
     }
 
     // 1 product memiliki N productImages
@@ -100,14 +100,14 @@ class Product extends Model
         return isset($this->status) ? $statuses[$this->status] : null;
     }
 
-    //
+    // query mencari product yang parent_id = null
     public function scopeActive($query) // .. 1
     {
         return $query->where('status', 1)
-            ->where('parent_id', null)
-            ->orderBy('created_at', 'desc');
+            ->where('parent_id', null);
     }
 
+    // label untuk menampilkan harga
     public function priceLabel()
     {
         return ($this->variants->count() > 0) ? $this->variants->first()->price : $this->price;
