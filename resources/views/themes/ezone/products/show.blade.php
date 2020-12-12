@@ -70,31 +70,33 @@
                         </div>
                     </div>
                     <div class="details-price">
-                        <span>Rp. {{ number_format($product->priceLabel()) }}</span>
+                        <span>{{ number_format($product->price_label()) }}</span>
                     </div>
                     <p>{{ $product->short_description }}</p>
                     {!! Form::open(['url' => 'carts']) !!}
+                    {{ Form::hidden('product_id', $product->id) }}
                     @if ($product->type == 'configurable')
                     <div class="quick-view-select">
                         <div class="select-option-part">
                             <label>Size*</label>
                             {!! Form::select('size', $sizes , null, ['class' => 'select', 'placeholder' => '- Please
-                            Select -']) !!}
+                            Select -', 'required' => true]) !!}
                         </div>
                         <div class="select-option-part">
                             <label>Color*</label>
                             {!! Form::select('color', $colors , null, ['class' => 'select', 'placeholder' => '- Please
-                            Select -']) !!}
+                            Select -', 'required' => true]) !!}
                         </div>
                     </div>
                     @endif
 
                     <div class="quickview-plus-minus">
                         <div class="cart-plus-minus">
-                            {!! Form::text('qty', 1, ['class' => 'cart-plus-minus-box', 'placeholder' => 'qty']) !!}
-                        </div>
+                            {!! Form::number('qty', 1, ['class' => 'cart-plus-minus-box', 'placeholder' => 'qty', 'min'
+                            => 1]) !!}
+                        </div>  
                         <div class="quickview-btn-cart">
-                            <button type="submit" class="submit contact-btn btn-hover">add to cart</button>
+                            <button type="submit" style="cursor: pointer" class="submit contact-btn btn-hover">add to cart</button>
                         </div>
                         <div class="quickview-btn-wishlist">
                             <a class="btn-hover" href="#"><i class="pe-7s-like"></i></a>

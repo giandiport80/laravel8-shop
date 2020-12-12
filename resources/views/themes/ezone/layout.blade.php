@@ -50,6 +50,14 @@
     <script src="{{ asset('themes/ezone/assets/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('themes/ezone/assets/js/plugins.js') }}"></script>
     <script src="{{ asset('themes/ezone/assets/js/main.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.delete').on('click', function(){
+                return confirm('Are you sure want to remove this?');
+            })
+        });
+    </script>
 </body>
 
 </html>

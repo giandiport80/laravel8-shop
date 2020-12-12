@@ -48,12 +48,27 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::active();
+        $products = $this->searchProducts($products, $request);
+        $products = $this->filterProductByCategory($products, $request);
+        $products = $this->filterProductByPriceRange($products, $request);
+        $products = $this->filterProductByAttribute($products, $request);
+        $products = $this->sortProducts($products, $request);
 
+        $this->data['products'] = $products->paginate(9);
+
+        return $this->load_theme('products.index', $this->data);
+    }
+
+    // ! private method
+    // ! ============================================================================
+
+    private function searchProducts($products, $request)
+    {
         // fitur search
-        if ($q = request()->query('q')) {
+        if ($q = $request->query('q')) {
             $q = str_replace('-', ' ', Str::slug($q));
 
             $products = $products->whereRaw("MATCH(name, slug, short_description, description) AGAINST (? IN NATURAL LANGUAGE MODE)", [$q]);
@@ -61,8 +76,13 @@ class ProductController extends Controller
             $this->data['q'] = $q;
         }
 
+        return $products;
+    }
+
+    private function filterProductByCategory($products, $request)
+    {
         // filter category
-        if ($categorySlug = request()->query('category')) {
+        if ($categorySlug = $request->query('category')) {
             $category = Category::where('slug', $categorySlug)->firstOrFail();
 
             $childIds = Category::childIds($category->id);
@@ -73,11 +93,16 @@ class ProductController extends Controller
             });
         }
 
+        return $products;
+    }
+
+    private function filterProductByPriceRange($products, $request)
+    {
         // filter price
         $lowPrice = null;
         $highPrice = null;
 
-        if ($priceSlider = request()->query('price')) {
+        if ($priceSlider = $request->query('price')) {
             $prices = explode('-', $priceSlider);
 
             // convert result string to float
@@ -97,8 +122,13 @@ class ProductController extends Controller
             }
         }
 
+        return $products;
+    }
+
+    private function filterProductByAttribute($products, $request)
+    {
         // filter color
-        if ($attributeOptionID = request()->query('option')) {
+        if ($attributeOptionID = $request->query('option')) {
             $attributeOption = AttributeOption::findOrFail($attributeOptionID);
 
             $products = $products->whereHas('productAttributeValues', function ($query) use ($attributeOption) {
@@ -107,8 +137,13 @@ class ProductController extends Controller
             });
         }
 
+        return $products;
+    }
+
+    private function sortProducts($products, $request)
+    {
         // sorting
-        if($sort = preg_replace('/\s+/', '',  request()->query('sort'))){
+        if ($sort = preg_replace('/\s+/', '',  $request->query('sort'))) {
             $availableSorts = ['price', 'created_at'];
             $availableOrders = ['asc', 'desc'];
             $sortAndOrder = explode('-', $sort);
@@ -117,18 +152,17 @@ class ProductController extends Controller
             $orderBy = strtolower($sortAndOrder[1]);
 
             // query sorting
-            if(in_array($sortBy, $availableSorts) && in_array($orderBy, $availableOrders)){
+            if (in_array($sortBy, $availableSorts) && in_array($orderBy, $availableOrders)) {
                 $products = $products->orderBy($sortBy, $orderBy);
             }
 
             $this->data['selectedSort'] = url('products?sort=' . $sort);
         }
 
-
-        $this->data['products'] = $products->paginate(9);
-
-        return $this->load_theme('products.index', $this->data);
+        return $products;
     }
+
+    // ! ============================================================================
 
     /**
      * Display the specified resource.

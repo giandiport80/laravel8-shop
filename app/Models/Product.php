@@ -112,6 +112,24 @@ class Product extends Model
     {
         return ($this->variants->count() > 0) ? $this->variants->first()->price : $this->price;
     }
+
+    // label untuk menampilkan harga
+    public function price_label()
+    {
+        return ($this->variants->count() > 0) ? $this->variants->first()->price : $this->price;
+    }
+
+    // cek apakah product tersebut configurable atau tidak
+    public function configurable()
+    {
+        return $this->type == 'configurable';
+    }
+
+    // cek apakah product tersebut simple atau tidak
+    public function simple()
+    {
+        return $this->type == 'simple';
+    }
 }
 
 

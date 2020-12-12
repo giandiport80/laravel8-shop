@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController as ControllersProductController;
 use Illuminate\Support\Facades\Auth;
@@ -24,8 +25,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 
+// product front
 Route::get('products', [ControllersProductController::class, 'index']);
 Route::get('product/{slug}', [ControllersProductController::class, 'show']);
+
+// cart
+Route::get('carts', [CartController::class, 'index'])->name('carts.index');
+Route::get('carts/remove/{cartID}', [CartController::class, 'destroy'])->name('carts.destroy');
+Route::post('carts', [CartController::class, 'store'])->name('carts.store');
+Route::post('carts/update', [CartController::class, 'update'])->name('cart.update');
 
 Route::middleware('auth')->prefix('admin')->group(function(){
 
