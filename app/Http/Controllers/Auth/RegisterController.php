@@ -50,7 +50,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -65,9 +66,38 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm() // .. 1
+    {
+        if (property_exists($this, 'registerView')) {
+            return view($this->registerView);
+        }
+        return $this->load_theme('auth.register');
+    }
 }
+
+
+
+
+
+
+
+
+
+
+// h: DOKUMENTASI
+
+// p: clue 1
+// kita meng override method showRegistrationForm() dari RegistersUsers
+// karena kita ingin mengganti form registernya

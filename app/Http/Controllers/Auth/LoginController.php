@@ -37,4 +37,32 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showLoginForm() // .. 1
+    {
+        if (view()->exists('auth.authenticate')) {
+            return view('auth.authenticate');
+        }
+
+        return $this->load_theme('auth.login');
+    }
 }
+
+
+
+
+
+
+
+
+
+// h: DOKUMENTASI
+
+// p: clue 1
+// kita meng override method showLoginForm() dari AuthenticatesUsers
+// karena kita ingin mengganti form registernya

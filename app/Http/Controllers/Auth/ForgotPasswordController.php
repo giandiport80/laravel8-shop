@@ -19,4 +19,31 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
+    /**
+     * Display the form to request a password reset link.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showLinkRequestForm()
+    {
+        if (property_exists($this, 'linkRequestView')) {
+            return view($this->linkRequestView);
+        }
+        return $this->load_theme('auth.password.email');
+    }
 }
+
+
+
+
+
+
+
+
+
+// h: DOKUMENTASI
+
+// p: clue 1
+// kita meng override method showLinkRequestForm() dari SendsPasswordResetEmails
+// karena kita ingin mengganti form registernya

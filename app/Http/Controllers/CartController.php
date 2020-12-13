@@ -174,3 +174,13 @@ class CartController extends Controller
 
 // Cart::getSubTotal()
 // mendapatkan seluruh total harga product di keranjang
+
+// k: pada partials/mini_cart.blade.php
+// Cart::getTotalQuantity()
+// mendapatkan total quantity
+
+
+// k: pada orders/checkout.blade.php
+// Cart::getCondition('TAX 10%')->
+// disitu kita menambahkan kondisi (pajak, ongkos kirim, dan lain lain)
+// dalam hal ini kita menambahkan pajak 10%

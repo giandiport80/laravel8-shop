@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController as ControllersProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,15 @@ Route::get('carts', [CartController::class, 'index'])->name('carts.index');
 Route::get('carts/remove/{cartID}', [CartController::class, 'destroy'])->name('carts.destroy');
 Route::post('carts', [CartController::class, 'store'])->name('carts.store');
 Route::post('carts/update', [CartController::class, 'update'])->name('cart.update');
+
+// order
+Route::get('orders/checkout', [OrderController::class, 'checkout']);
+Route::post('orders/checkout', [OrderController::class, 'doCheckout']);
+Route::post('orders/shipping-cost', [OrderController::class, 'shippingCost']);
+Route::post('orders/set-shipping', [OrderController::class, 'setShipping']);
+Route::get('orders/complete', [OrderController::class, 'complete']);
+Route::get('orders/invoice', [OrderController::class, 'invoice']);
+Route::get('orders/cities', [OrderController::class, 'cities']);
 
 Route::middleware('auth')->prefix('admin')->group(function(){
 
