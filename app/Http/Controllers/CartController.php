@@ -170,7 +170,7 @@ class CartController extends Controller
 
 // k: pada carts/index.blade.php
 // Cart::getSubTotal()
-// mendapatkan subtotal harga product di keranjang
+// mendapatkan seluruh total harga product di keranjang tanpa pajak / diskon
 
 // Cart::getSubTotal()
 // mendapatkan seluruh total harga product di keranjang
@@ -180,7 +180,6 @@ class CartController extends Controller
 // mendapatkan total quantity
 
 
-// k: pada orders/checkout.blade.php
 // Cart::getCondition('TAX 10%')->
 // disitu kita menambahkan kondisi (pajak, ongkos kirim, dan lain lain)
 // dalam hal ini kita menambahkan pajak 10%

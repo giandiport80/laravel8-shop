@@ -24,6 +24,7 @@
         <h3 class="sidebar-title">Categories</h3>
         <div class="sidebar-categories">
             <ul>
+                <li><a href="{{ url('products') }}">All Categories</a></li>
                 @foreach ($categories as $category)
                 <li><a href="{{ url('products?category='. $category->slug) }}">{{ $category->name }}</a></li>
                 @endforeach
