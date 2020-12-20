@@ -107,7 +107,9 @@
                                         <span>{{ \General::priceFormat($order->grand_total) }}</span>
                                     </li>
                                 </ul>
-                                <a href="#">Proceed to payment</a>
+                                @if(!$order->isPaid())
+                                <a href="{{ $order->payment_url }}" target="_blank">Proceed to payment</a>
+                                @endif
                             </div>
                         </div>
                     </div>

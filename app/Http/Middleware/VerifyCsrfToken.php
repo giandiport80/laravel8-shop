@@ -12,6 +12,17 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        'payments/notification'
     ];
 }
+
+
+
+
+
+
+
+
+
+// h: DOKUMENTASI
+// untuk pengecualian csrf token

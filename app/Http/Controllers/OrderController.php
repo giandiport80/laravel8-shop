@@ -7,6 +7,7 @@ use App\Jobs\SendMailOrderReceived;
 use App\Mail\OrderShipped;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Payment;
 use App\Models\ProductInventory;
 use App\Models\Shipment;
 use App\Models\User;
@@ -120,11 +121,8 @@ class OrderController extends Controller
 
         $order = DB::transaction(function () use ($params) {
             $order = $this->_saveOrder($params);
-
-            // dd($order->toArray()); // .. 4
-
             $this->_saveOrderItems($order);
-
+            $this->_generatePaymentToken($order);
             $this->_saveShipment($order, $params);
 
             return $order;
@@ -142,6 +140,42 @@ class OrderController extends Controller
         }
 
         return redirect('orders/checkout');
+    }
+
+    private function _generatePaymentToken($order)
+    {
+        $this->initPaymentGateway();
+
+        $customerDetails = [
+            'first_name' => $order->customer_first_name,
+            'last_name' => $order->customer_last_name,
+            'email' => Auth::user()->email,
+            'phone' => $order->customer_phone,
+        ];
+
+        $params = [
+            'enabled_payments' => Payment::PAYMENT_CHANNELS,
+            'transaction_details' => [
+                'order_id' => $order->code,
+                'gross_amount' => $order->grand_total
+            ],
+            'customer_details' => $customerDetails,
+            'expiry' => [
+                'start_time' => date('Y-m-d H:i:s T'),
+                'unit' => Payment::EXPIRY_UNIT,
+                'duration' => Payment::EXPIRY_DURATION
+            ]
+        ];
+
+        // dd($params);
+        // generate token midtrans
+        $snap = \Midtrans\Snap::createTransaction($params);
+
+        if($snap->token){
+            $order->payment_token = $snap->token;
+            $order->payment_url = $snap->redirect_url;
+            $order->save();
+        }
     }
 
     private function _saveOrder($params)

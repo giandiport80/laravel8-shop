@@ -9,7 +9,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController as ControllersProductController;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +46,12 @@ Route::post('orders/set-shipping', [OrderController::class, 'setShipping']);
 Route::get('orders/received/{orderID}', [OrderController::class, 'received']);
 Route::get('orders/invoice', [OrderController::class, 'invoice']);
 Route::get('orders/cities', [OrderController::class, 'cities']);
+
+// payment
+Route::post('payments/notification', [PaymentController::class, 'notification']);
+Route::get('payments/completed', [PaymentController::class, 'completed']);
+Route::get('payments/failed', [PaymentController::class, 'failed']);
+Route::get('payments/unfinish', [PaymentController::class, 'unfinish']);
 
 Route::middleware('auth')->prefix('admin')->group(function(){
 
