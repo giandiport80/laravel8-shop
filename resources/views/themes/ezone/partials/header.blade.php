@@ -168,7 +168,7 @@
                         <li>Get Access: <a href="{{ url('login') }}">Login</a></li>
                         <li><a href="{{ url('register') }}">Register</a></li>
                         @else
-                        <li>Hello: <a href="{{ url('users/profile') }}">{{ Auth::user()->first_name }}</a></li>
+                        <li>Hello: <a href="{{ url('profile') }}">{{ Auth::user()->first_name }}</a></li>
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
 											document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
@@ -182,7 +182,8 @@
                 </div>
                 <div class="furniture-search">
                     <form action="{{ url('products') }}" method="GET">
-                        <input placeholder="I am Searching for . . ." name="q" value="{{ $q ?? null }}" type="text">
+                        <input placeholder="I am Searching for . . ." type="text" name="q"
+                            value="{{ isset($q) ? $q : null }}">
                         <button>
                             <i class="ti-search"></i>
                         </button>
@@ -190,9 +191,7 @@
                 </div>
                 <div class="furniture-wishlist">
                     <ul>
-                        <li><a data-toggle="modal" data-target="#exampleCompare" href="#"><i class="ti-reload"></i>
-                                Compare</a></li>
-                        <li><a href="wishlist.html"><i class="ti-heart"></i> Wishlist</a></li>
+                        <li><a href="{{ url('favorites') }}"><i class="ti-heart"></i> Favorites</a></li>
                     </ul>
                 </div>
             </div>

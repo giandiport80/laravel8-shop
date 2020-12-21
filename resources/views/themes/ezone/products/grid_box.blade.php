@@ -11,7 +11,7 @@
             </a>
             <span>hot</span>
             <div class="product-action">
-                <a class="animate-left" title="Wishlist" href="#">
+                <a class="animate-left add-to-fav" product-slug={{ $product->slug }} title="Wishlist" href="">
                     <i class="pe-7s-like"></i>
                 </a>
                 <a class="animate-top" title="Add To Cart" href="#">

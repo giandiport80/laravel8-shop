@@ -160,6 +160,11 @@ class Product extends Model
             ->orderByRaw('total_sold DESC')
             ->limit($limit);
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }
 
 

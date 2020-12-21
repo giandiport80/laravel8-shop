@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ShipmentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
@@ -33,6 +34,9 @@ Route::get('/', [HomeController::class, 'index']);
 // product front
 Route::get('products', [ControllersProductController::class, 'index']);
 Route::get('product/{slug}', [ControllersProductController::class, 'show']);
+
+// favorite
+Route::resource('favorites', FavoriteController::class)->only(['index', 'store', 'destroy']);
 
 // cart
 Route::get('carts', [CartController::class, 'index'])->name('carts.index');

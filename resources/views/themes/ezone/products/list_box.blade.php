@@ -27,7 +27,7 @@
                     <a class="btn-hover list-btn-style" href="#">add to cart</a>
                 </div>
                 <div class="product-list-wishlist">
-                    <a class="btn-hover list-btn-wishlist" href="#">
+                    <a class="btn-hover list-btn-wishlist add-to-fav" product-slug={{ $product->slug }} href="#">
                         <i class="pe-7s-like"></i>
                     </a>
                 </div>
