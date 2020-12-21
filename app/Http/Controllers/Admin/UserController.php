@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->data['users'] = User::where('name', '!=', 'Administrator')->latest()->paginate(10);
+        $this->data['users'] = User::where('first_name', '!=', 'Administrator')->latest()->paginate(10);
 
         return view('admin.users.index', $this->data);
     }

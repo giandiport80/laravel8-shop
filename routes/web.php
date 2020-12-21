@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ShipmentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -84,6 +86,17 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::resource('users', UserController::class)->except('show');
     // roles
     Route::resource('roles', RoleController::class)->only(['index', 'store', 'update']);
+
+    // order
+    Route::get('orders/trashed', [AdminOrderController::class, 'trashed']);
+    Route::get('orders/restore/{orderID}', [AdminOrderController::class, 'restore']);
+    Route::get('orders/{orderID}/cancel', [AdminOrderController::class, 'cancel']);
+    Route::put('orders/cancel/{orderID}', [AdminOrderController::class, 'doCancel']);
+    Route::post('orders/complete/{orderID}', [AdminOrderController::class, 'doComplete']);
+    Route::resource('orders', AdminOrderController::class);
+
+    // shipment
+    Route::resource('shipments', ShipmentController::class);
 
 });
 

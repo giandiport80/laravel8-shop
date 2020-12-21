@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Helpers\General;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -54,6 +55,14 @@ class Order extends Model
 
     public const PAID = 'paid';
     public const UNPAID = 'unpaid';
+
+    public const STATUSES = [
+        self::CREATED => 'Created',
+        self::CONFIRMED => 'Confirmed',
+        self::DELIVERED => 'Delivered',
+        self::COMPLETED => 'Completed',
+        self::CANCELLED => 'Cancelled',
+    ];
 
     /**
      * Define relationship with the Shipment
@@ -131,6 +140,66 @@ class Order extends Model
     {
         return $this->payment_status == self::PAID;
     }
+
+    /**
+	 * Check order is created
+	 *
+	 * @return boolean
+	 */
+	public function isCreated()
+	{
+		return $this->status == self::CREATED;
+	}
+
+	/**
+	 * Check order is confirmed
+	 *
+	 * @return boolean
+	 */
+	public function isConfirmed()
+	{
+		return $this->status == self::CONFIRMED;
+	}
+
+	/**
+	 * Check order is delivered
+	 *
+	 * @return boolean
+	 */
+	public function isDelivered()
+	{
+		return $this->status == self::DELIVERED;
+	}
+
+	/**
+	 * Check order is completed
+	 *
+	 * @return boolean
+	 */
+	public function isCompleted()
+	{
+		return $this->status == self::COMPLETED;
+	}
+
+	/**
+	 * Check order is cancelled
+	 *
+	 * @return boolean
+	 */
+	public function isCancelled()
+	{
+		return $this->status == self::CANCELLED;
+	}
+
+	/**
+	 * Add full_name custom attribute to order object
+	 *
+	 * @return boolean
+	 */
+	public function getCustomerFullNameAttribute()
+	{
+		return "{$this->customer_first_name} {$this->customer_last_name}";
+	}
 }
 
 

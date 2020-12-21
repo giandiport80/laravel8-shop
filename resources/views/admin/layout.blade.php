@@ -23,6 +23,7 @@
 
 
     <!-- No Extra plugin used -->
+    <link rel="stylesheet" href="{{ asset('admin') }}/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
 
 
 
@@ -94,32 +95,39 @@
     <script src="{{ asset('admin') }}/assets/plugins/daterangepicker/daterangepicker.js"></script>
     <script src="{{ asset('admin') }}/assets/plugins/toastr/toastr.min.js"></script>
     <script src="{{ asset('admin') }}/assets/js/sleek.bundle.js"></script>
-
+    <script src="{{ asset('admin') }}/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script>
-        // konfirmasi button delete
-        $('.delete').on('submit', function(){
-            return confirm('Do you want to delete this?');
-        });
+        $('.datepicker').datepicker({
+			format: 'yyyy-mm-dd'
+		});
+		$(".delete").on("submit", function () {
+			return confirm("Do you want to remove this?");
+		});
+		$("a.delete").on("click", function () {
+			event.preventDefault();
+			var orderId = $(this).attr('order-id');
+			if (confirm("Do you want to remove this?")) {
+				document.getElementById('delete-form-' + orderId ).submit();
+			}
+		});
+		$(".restore").on("click", function () {
+			return confirm("Do you want to restore this?");
+		});
+		function showHideConfigurableAttributes() {
+			var productType = $(".product-type").val();
 
-        function showHideConfigurableAttributes() {
-            var productType = $(".product-type").val();
-
-            if (productType == 'configurable') {
-                $(".configurable-attributes").show();
-            } else {
-                $(".configurable-attributes").hide();
-            }
-        }
-
-        $(function(){
-            showHideConfigurableAttributes();
-            
-            $(".product-type").change(function() {
-                showHideConfigurableAttributes();
-            });
-        });
-
-
+			if (productType == 'configurable') {
+				$(".configurable-attributes").show();
+			} else {
+				$(".configurable-attributes").hide();
+			}
+		}
+		$(function(){
+			showHideConfigurableAttributes();
+			$(".product-type").change(function() {
+				showHideConfigurableAttributes();
+			});
+		});
     </script>
 
 </body>
