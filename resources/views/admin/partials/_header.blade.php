@@ -101,7 +101,14 @@
                         </li>
 
                         <li class="dropdown-footer">
-                            <a href="index.html"> <i class="mdi mdi-logout"></i> Log Out </a>
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                    											document.getElementById('logout-form').submit();">
+                                <i class="mdi mdi-logout"></i> {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </li>
                     </ul>
                 </li>

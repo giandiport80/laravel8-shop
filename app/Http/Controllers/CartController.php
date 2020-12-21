@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\OutOfStockException;
 use App\Models\Product;
 use Darryldecode\Cart\Facades\CartFacade;
 use Illuminate\Http\Request;
@@ -74,6 +75,9 @@ class CartController extends Controller
             $attribute['color'] = $params['color'];
         }
 
+        $itemQuantity = $this->_getItemQuantity(md5($product->id)) + $params['qty'];
+        $this->_checkProductInventory($product, $itemQuantity);
+
         $item = [
             'id' => md5($product->id),
             'name' => $product->name,
@@ -88,6 +92,29 @@ class CartController extends Controller
         session()->flash('success', 'Product' . $item['name'] . 'has been been added to cart!');
 
         return redirect('product/' . $slug);
+    }
+
+    private function _getItemQuantity($itemId)
+    {
+        $items = CartFacade::getContent();
+        $itemQuantity = 0;
+        if ($items) {
+            foreach ($items as $item) {
+                if ($item->id == $itemId) {
+                    $itemQuantity = $item->quantity;
+                    break;
+                }
+            }
+        }
+
+        return $itemQuantity;
+    }
+
+    private function _checkProductInventory($product, $itemQuantity)
+    {
+        if ($product->productInventory->qty < $itemQuantity) {
+            throw new OutOfStockException('The product ' . $product->sku . ' is out of stock');
+        }
     }
 
     /**
