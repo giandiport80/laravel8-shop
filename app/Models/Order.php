@@ -199,7 +199,12 @@ class Order extends Model
 	public function getCustomerFullNameAttribute()
 	{
 		return "{$this->customer_first_name} {$this->customer_last_name}";
-	}
+    }
+
+    public function scopeForUser($query, $user)
+    {
+        return $query->where('user_id', $user->id);
+    }
 }
 
 

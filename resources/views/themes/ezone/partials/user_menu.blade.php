@@ -4,6 +4,7 @@
         <ul>
             <li><a href="{{ url('profile') }}">My Profile</a></li>
             <li><a href="{{ url('favorites') }}">Favorites</a></li>
+            <li><a href="{{ url('orders') }}">Orders</a></li>
         </ul>
     </div>
 </div>

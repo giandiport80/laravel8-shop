@@ -15,6 +15,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController as ControllersProductController;
+use App\Http\Controllers\ProfileController;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,8 @@ Route::post('carts', [CartController::class, 'store'])->name('carts.store');
 Route::post('carts/update', [CartController::class, 'update'])->name('cart.update');
 
 // order
+Route::get('orders', [OrderController::class, 'index']);
+Route::get('orders/{id}', [OrderController::class, 'show']);
 Route::get('orders/checkout', [OrderController::class, 'checkout']);
 Route::post('orders/checkout', [OrderController::class, 'doCheckout']);
 Route::post('orders/shipping-cost', [OrderController::class, 'shippingCost']);
@@ -59,6 +62,9 @@ Route::post('payments/notification', [PaymentController::class, 'notification'])
 Route::get('payments/completed', [PaymentController::class, 'completed']);
 Route::get('payments/failed', [PaymentController::class, 'failed']);
 Route::get('payments/unfinish', [PaymentController::class, 'unfinish']);
+
+Route::get('profile', [ProfileController::class, 'index']);
+Route::patch('profile', [ProfileController::class, 'update']);
 
 Route::middleware('auth')->prefix('admin')->group(function(){
 
