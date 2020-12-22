@@ -167,6 +167,7 @@ return [
          */
         Darryldecode\Cart\CartServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -231,7 +232,8 @@ return [
 
         'General' => App\Helpers\General::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

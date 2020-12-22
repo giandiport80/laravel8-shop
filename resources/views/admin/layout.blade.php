@@ -9,7 +9,7 @@
         content="Sleek Dashboard - Free Bootstrap 4 Admin Dashboard Template and UI Kit. It is very powerful bootstrap admin dashboard, which allows you to build products like admin panels, content management systems and CRMs etc.">
 
 
-    <title>Sleek - Admin Dashboard Template</title>
+    <title>Laravel8 Shop | {{ $currentAdminSubMenu }}</title>
 
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500"
@@ -34,11 +34,6 @@
     <link href="{{ asset('admin') }}/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
 
 
-
-    <link href="{{ asset('admin') }}/assets/plugins/toastr/toastr.min.css" rel="stylesheet" />
-
-
-
     <!-- SLEEK CSS -->
     <link id="sleek-css" rel="stylesheet" href="{{ asset('admin') }}/assets/css/sleek.css" />
 
@@ -55,9 +50,6 @@
         NProgress.configure({ showSpinner: false });
     NProgress.start();
     </script>
-
-
-    <div id="toaster"></div>
 
 
     <div class="wrapper">

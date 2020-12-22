@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ShipmentController;
 use App\Http\Controllers\Admin\SlideController;
@@ -109,9 +110,16 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     // shipment
     Route::resource('shipments', ShipmentController::class);
 
+    // slides
     Route::resource('slides', SlideController::class);
     Route::get('slides/{slideID}/up', [SlideController::class, 'moveUp']);
     Route::get('slides/{slideID}/down', [SlideController::class, 'moveDown']);
+
+    // reports
+    Route::get('reports/revenue', [ReportController::class, 'revenue']);
+    Route::get('reports/product', [ReportController::class, 'product']);
+    Route::get('reports/inventory', [ReportController::class, 'inventory']);
+    Route::get('reports/payment', [ReportController::class, 'payment']);
 
 });
 
