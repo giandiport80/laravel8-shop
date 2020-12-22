@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ShipmentController;
+use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FavoriteController;
@@ -101,6 +102,10 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
     // shipment
     Route::resource('shipments', ShipmentController::class);
+
+    Route::resource('slides', SlideController::class);
+    Route::get('slides/{slideID}/up', [SlideController::class, 'moveUp']);
+    Route::get('slides/{slideID}/down', [SlideController::class, 'moveDown']);
 
 });
 

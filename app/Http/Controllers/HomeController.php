@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Slide;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -27,6 +28,10 @@ class HomeController extends Controller
         // $products = Product::popular()->get();
         // $this->data['products'] = $products;
 
+        $slides = Slide::active()->get();
+
+        $this->data['slides'] = $slides;
+        
         return $this->load_theme('home', $this->data);
     }
 }
