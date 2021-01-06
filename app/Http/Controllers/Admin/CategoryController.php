@@ -6,17 +6,19 @@ use App\Authorizable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\Repositories\Admin\Interfaces\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
     use Authorizable;
 
-    public function __construct()
+    private $categoryRepository;
+
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         parent::__construct();
 
+        $this->categoryRepository = $categoryRepository;
         $this->data['currentAdminMenu'] = 'catalog';
         $this->data['currentAdminSubMenu'] = 'category';
     }
@@ -28,7 +30,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $this->data['categories'] = Category::orderBy('name')->paginate(10);
+        $this->data['categories'] = $this->categoryRepository->paginate(10);
 
         return view('admin.categories.index', $this->data);
     }
@@ -40,10 +42,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
-
-        $this->data['categories'] = $categories->toArray();
-        $this->data['category'] = null;
+        $this->data['categories'] = $this->categoryRepository->getCategoryDropDown();
 
         return view('admin.categories.form', $this->data);
     }
@@ -56,28 +55,12 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $params = $request->except('_token');
-
-        $params['slug'] = Str::slug($params['name']);
-        $params['parent_id'] = (int) $params['parent_id'];
-
-        if(Category::create($params)){
+        if($this->categoryRepository->create($request)){
             session()->flash('success', 'Category has been saved!');
         }
 
         return redirect()->route('categories.index');
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -88,9 +71,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $categories = Category::where('id', '!=', $category->id)->orderBy('name')->get();
+        $categories = $this->categoryRepository->getCategoryDropDown($category->id);
 
-        $this->data['categories'] = $categories->toArray();
+        $this->data['categories'] = $categories;
         $this->data['category'] = $category;
 
         return view('admin.categories.form', $this->data);
@@ -105,12 +88,7 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $params = $request->except('_token');
-
-        $params['slug'] = Str::slug($params['name']);
-        $params['parent_id'] = (int) $params['parent_id'];
-
-        if($category->update($params)){
+        if($this->categoryRepository->update($request, $category)){
             session()->flash('success', 'Category has been updated!');
         }
 
@@ -125,7 +103,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if($category->delete()){
+        if($this->categoryRepository->delete($category)){
             session()->flash('success', 'Category has been deleted!');
         }
 

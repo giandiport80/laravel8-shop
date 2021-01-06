@@ -72,7 +72,7 @@ Route::middleware('auth')->prefix('admin')->group(function(){
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     // categories
-    Route::resource('categories', CategoryController::class);
+    Route::resource('categories', CategoryController::class)->except('show');
 
     // products
     Route::resource('products', ProductController::class);
