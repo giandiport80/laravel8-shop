@@ -55,12 +55,13 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        if($this->categoryRepository->create($request)){
+        $params = $request->validated();
+
+        if ($this->categoryRepository->create($params)) {
             session()->flash('success', 'Category has been saved!');
         }
 
         return redirect()->route('categories.index');
-
     }
 
     /**
@@ -88,7 +89,9 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        if($this->categoryRepository->update($request, $category)){
+        $params = $request->validated();
+
+        if ($this->categoryRepository->update($params, $category)) {
             session()->flash('success', 'Category has been updated!');
         }
 
@@ -103,7 +106,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if($this->categoryRepository->delete($category)){
+        if ($this->categoryRepository->delete($category)) {
             session()->flash('success', 'Category has been deleted!');
         }
 
