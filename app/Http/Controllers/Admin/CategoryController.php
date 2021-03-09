@@ -110,7 +110,7 @@ class CategoryController extends Controller
             session()->flash('success', 'Category has been deleted!');
         }
 
-        return back();
+        return redirect()->route('categories.index');
     }
 }
 
