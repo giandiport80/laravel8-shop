@@ -217,7 +217,7 @@ class CategoryRepositoryTest extends TestCase
      */
     public function testShouldThrowAnErrorWhenUpdatedCategoryAndTheRequiredField()
     {
-        $this->expectException(CategoryNotFoundErrorException::class);
+        $this->expectException(UpdateCategoryErrorException::class);
 
         $category = Category::factory()->create();
 

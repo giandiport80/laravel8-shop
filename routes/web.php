@@ -79,9 +79,9 @@ Route::middleware('auth')->prefix('admin')->group(function(){
 
     // product images
     Route::get('products/{productID}/images', [ProductController::class, 'images'])->name('products.images');
-    Route::get('products/{productID}/add-image', [ProductController::class, 'add_image'])->name('products.add_image');
-    Route::post('products/images/{productID}', [ProductController::class, 'upload_image'])->name('products.upload_image');
-    Route::delete('products/images/{imageID}', [ProductController::class, 'remove_image'])->name('products.remove_image');
+    Route::get('products/{productID}/add-image', [ProductController::class, 'addImage'])->name('products.add_image');
+    Route::post('products/images/{productID}', [ProductController::class, 'uploadImage'])->name('products.upload_image');
+    Route::delete('products/images/{imageID}', [ProductController::class, 'removeImage'])->name('products.remove_image');
 
     // attributes
     Route::resource('attributes', AttributeController::class)->except('show');

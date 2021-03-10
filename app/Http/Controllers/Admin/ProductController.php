@@ -6,32 +6,37 @@ use App\Authorizable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductImageRequest;
 use App\Http\Requests\ProductRequest;
-use App\Models\Attribute;
-use App\Models\AttributeOption;
+
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductAttributeValue;
 use App\Models\ProductImage;
-use App\Models\ProductInventory;
-use Illuminate\Http\Request;
+
+use App\Repositories\Admin\Interfaces\AttributeRepositoryInterface;
+use App\Repositories\Admin\Interfaces\CategoryRepositoryInterface;
+use App\Repositories\Admin\Interfaces\ProductRepositoryInterface;
+
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
     use Authorizable; // .. 6
 
-    public function __construct()
+    private $_productRepository, $_categoryRepository, $_attributeRepository;
+
+    public function __construct(ProductRepositoryInterface $productRepository, CategoryRepositoryInterface $categoryRepository, AttributeRepositoryInterface $attributeRepository)
     {
         parent::__construct();
 
+        $this->_productRepository = $productRepository;
+        $this->_categoryRepository = $categoryRepository;
+        $this->_attributeRepository = $attributeRepository;
+
         $this->data['currentAdminMenu'] = 'catalog';
         $this->data['currentAdminSubMenu'] = 'product';
-        
-        $this->data['statuses'] = Product::statuses();
-        $this->data['types'] = Product::types();
+
+        $this->data['statuses'] = $this->_productRepository->statuses();
+        $this->data['types'] = $this->_productRepository->types();
     }
     /**
      * Display a listing of the resource.
@@ -40,11 +45,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $this->data['products'] = Product::orderBy('name')->paginate(10);
+        $this->data['products'] = $this->_productRepository->paginate(10);
 
         return view('admin.products.index', $this->data);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -52,117 +56,14 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
-        $configurableAttributes = $this->getConfigurableAttributes();
-
-        $this->data['categories'] = $categories->toArray();
+        $this->data['categories'] = $this->_categoryRepository->getCategoryDropDown();
         $this->data['product'] = null;
         $this->data['productID'] = 0;
         $this->data['categoryIDs'] = [];
-        $this->data['configurableAttributes'] = $configurableAttributes;
+        $this->data['configurableAttributes'] = $this->_attributeRepository->getConfigurableAttributes();
 
         return view('admin.products.form', $this->data);
     }
-
-    // ! private method
-    // ! ============================================================================
-
-    private function getConfigurableAttributes() // .. 1
-    {
-        return Attribute::where('is_configurable', true)->get();
-    }
-
-    private function generateAttributeCombinations($arrays) // .. 4
-    {
-        $result = [[]];
-
-        foreach($arrays as $property => $property_values){
-            $tmp = [];
-            foreach($result as $result_item){
-                foreach($property_values as $property_value){
-                    $tmp[] = array_merge($result_item, array($property => $property_value));
-                }
-            }
-            $result = $tmp;
-        }
-
-        return $result;
-    }
-
-    private function convertVariantAsName($variant)
-    {
-        $variantName = '';
-
-        foreach (array_keys($variant) as $key => $code) {
-            $attributeOptionID = $variant[$code];
-            $attributeOption = AttributeOption::find($attributeOptionID);
-
-            if ($attributeOption) {
-                $variantName .= ' - ' . $attributeOption->name;
-            }
-        }
-
-        return $variantName;
-    }
-
-    private function generateProductVariants($product, $params) // .. 2
-    {
-        $configurableAttributes = $this->getConfigurableAttributes();
-        $variantAttributes = [];
-
-        foreach($configurableAttributes as $attribute){
-            $variantAttributes[$attribute->code] = $params[$attribute->code];
-        }
-
-        // dd($variantAttributes);
-
-        $variants = $this->generateAttributeCombinations($variantAttributes); // .. 3
-
-        // echo '<pre>';
-        // print_r($variants);
-        // exit;
-
-        if($variants){
-            foreach($variants as $variant){
-                $variantParams = [
-                    'parent_id' => $product->id,
-                    'user_id' => auth()->id(),
-                    'sku' => $product->sku . '-' . implode('-', array_values($variant)),
-                    'type' => 'simple',
-                    'name' => $product->name . $this->convertVariantAsName($variant),
-                ];
-
-                $variantParams['slug'] = Str::slug($variantParams['name']);
-
-                $newProductVariant = Product::create($variantParams);
-
-                $categoryIds = !empty($params['category_ids']) ? $params['category_ids'] : [];
-                $newProductVariant->categories()->sync($categoryIds);
-
-                // dd($variantParams);
-
-                $this->saveProductAttributeValues($newProductVariant, $variant);
-            }
-        }
-    }
-
-    private function saveProductAttributeValues($product, $variant) // ..
-    {
-        foreach (array_values($variant) as $attributeOptionID) {
-            $attributeOption = AttributeOption::find($attributeOptionID);
-
-            $attributeValueParams = [
-                'product_id' => $product->id,
-                'attribute_id' => $attributeOption->attribute_id,
-                'text_value' => $attributeOption->name,
-            ];
-
-            ProductAttributeValue::create($attributeValueParams);
-        }
-    }
-
-
-    // ! ============================================================================
 
     /**
      * Store a newly created resource in storage.
@@ -173,29 +74,14 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $params = $request->except('_token');
-
-        $params['slug'] = Str::slug($params['name']);
         $params['user_id'] = Auth::id();
 
-        $product = DB::transaction(function () use ($params) {
-            $categoryIds = !empty($params['category_ids']) ? $params['category_ids'] : [];
-            $product = Product::create($params);
-            $product->categories()->sync($categoryIds);
-
-            if($params['type'] == 'configurable'){
-                $this->generateProductVariants($product, $params);
-            }
-
-            return $product;
-        });
-
-        if($product){
+        if ($product = $this->_productRepository->create($params)) {
             session()->flash('success', 'Product has been saved!');
-        }else {
+            return redirect()->route('products.edit', $product->id);
+        } else {
             session()->flash('error', 'Product could not be saved!');
         }
-
-        return redirect()->route('products.edit', $product->id);
     }
 
     /**
@@ -217,15 +103,15 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        if(empty($id)){
+        if (empty($id)) {
             return redirect()->route('products.create');
         }
 
-        $product = Product::findOrFail($id);
+        $product = $this->_productRepository->findById($id);
         $product->qty = isset($product->ProductInventory) ? $product->productInventory->qty : null;
         $categories = Category::orderBy('name')->get();
 
-        $this->data['categories'] = $categories->toArray();
+        $this->data['categories'] = $this->_categoryRepository->getCategoryDropDown();
         $this->data['product'] = $product;
         $this->data['productID'] = $product->id;
         $this->data['categoryIDs'] = $product->categories->pluck('id')->toArray();
@@ -244,27 +130,7 @@ class ProductController extends Controller
     {
         $params = $request->except('_token');
 
-        $params['slug'] = Str::slug($params['name']);
-
-        $saved = false;
-        $saved = DB::transaction(function () use ($product, $params) {
-            $categoryIds = !empty($params['category_ids']) ? $params['category_ids'] : [];
-            $product->update($params);
-            $product->categories()->sync($categoryIds);
-
-            if($product->type == 'configurable'){
-                $this->updateProductVariants($params);
-            }else {
-                ProductInventory::updateOrCreate(
-                    ['product_id' => $product->id],
-                    ['qty' => $params['qty']]
-                );
-            }
-
-            return true;
-        });
-
-        if ($saved) {
+        if ($this->_productRepository->update($params, $product)) {
             session()->flash('success', 'Product has been updated!');
         } else {
             session()->flash('error', 'Product could not be updated!');
@@ -272,27 +138,6 @@ class ProductController extends Controller
 
         return redirect()->route('products.index');
     }
-
-    // ! method private
-    // ! ============================================================================
-
-    private function updateProductVariants($params)
-    {
-        if ($params['variants']) {
-            foreach ($params['variants'] as $productParams) {
-                $product = Product::find($productParams['id']);
-                $product->update($productParams);
-
-                $product->status = $params['status'];
-                $product->save();
-
-                ProductInventory::updateOrCreate(['product_id' => $product->id], ['qty' => $productParams['qty']]);
-            }
-        }
-    }
-
-    // ! ============================================================================
-
 
     /**
      * Remove the specified resource from storage.
@@ -302,11 +147,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        if ($product->delete()) {
+        if ($this->_productRepository->delete($product)) {
             session()->flash('success', 'Product has been deleted!');
         }
 
-        return back();
+        return redirect()->route('products.index');
     }
 
     // k: method2 product images
@@ -314,7 +159,7 @@ class ProductController extends Controller
 
     public function images($id)
     {
-        if(empty($id)){
+        if (empty($id)) {
             return redirect()->route('products.create');
         }
 
@@ -326,13 +171,13 @@ class ProductController extends Controller
         return view('admin.products.images', $this->data);
     }
 
-    public function add_image($id)
+    public function addImage($id)
     {
-        if(empty($id)){
+        if (empty($id)) {
             return redirect()->route('products.index');
         }
 
-        $product = Product::findOrFail($id);
+        $product = $this->_productRepository->findById($id);
 
         $this->data['productID'] = $id;
         $this->data['product'] = $product;
@@ -340,25 +185,14 @@ class ProductController extends Controller
         return view('admin.products.image_form', $this->data);
     }
 
-    public function upload_image(ProductImageRequest $request, $id)
+    public function uploadImage(ProductImageRequest $request, $id)
     {
-        $product = Product::findOrFail($id);
-
-        if($request->has('image')){
+        if ($request->has('image')) {
             $image = $request->file('image');
-            $name = $product->slug . '_' . time();
-            $fileName = $name . '.' . $image->getClientOriginalExtension();
-            $folder = 'uploads/images';
-            $filePath = $image->storeAs($folder, $fileName, 'public');
 
-            $params = [
-                'product_id' => $product->id,
-                'path' => $filePath
-            ];
-
-            if(ProductImage::create($params)){
+            if ($this->_productRepository->addImage($id, $image)) {
                 session()->flash('success', 'Image has been uploaded!');
-            }else{
+            } else {
                 session()->flash('error', 'Image could not be uploaded!');
             }
 
@@ -366,15 +200,17 @@ class ProductController extends Controller
         }
     }
 
-    public function remove_image($id)
+    /**
+     * remove_image
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function removeImage($id)
     {
-        $image = ProductImage::findOrFail($id);
+        $image = $this->_productRepository->findImageById($id);
 
-        if($image->path){
-            Storage::delete('public/' . $image->path);
-        }
-
-        if ($image->delete()) {
+        if ($this->_productRepository->removeImage($id)) {
             session()->flash('success', 'Image has been deleted!');
         }
 
@@ -399,9 +235,6 @@ class ProductController extends Controller
 // pada method destroy, kita tidak detach cateogory nya
 // karena ini sudah otomatis, karena foreign key nya on delete cascade
 // jadi ketika data product di hapus, maka foreign key nya juga dihapus
-
-// p: clue 1
-// query attribute yang configurable nya true
 
 // p: clue 2
 // mendapatkan variasi dari product nya
