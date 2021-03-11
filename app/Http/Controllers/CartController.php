@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\OutOfStockException;
-use App\Models\Product;
-use Darryldecode\Cart\Facades\CartFacade;
+use App\Repositories\Front\Interfaces\CartRepositoryInterface;
+use App\Repositories\Front\Interfaces\CatalogRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function __construct()
-    {
+    private $cartRepository, $catalogRepository;
+
+    public function __construct(
+        CartRepositoryInterface $cartRepository,
+        CatalogRepositoryInterface $catalogRepository
+    ) {
         parent::__construct();
+
+        $this->cartRepository = $cartRepository;
+        $this->catalogRepository = $catalogRepository;
     }
 
     /**
@@ -21,9 +27,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $items = CartFacade::getContent(); // .. 1
-
-        $this->data['items'] = $items;
+        $this->data['items'] = $this->cartRepository->getContent();
 
         return $this->load_theme('carts.index', $this->data);
     }
@@ -37,46 +41,19 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $params = $request->except('_token');
-        $product = Product::findOrFail($params['product_id']);
-        $slug = $product->slug;
+        $product = $this->catalogRepository->findByProductId($params['product_id']);
         $attribute = [];
 
-        // var_dump($product->id); // .. 3
-        // echo "<br>";
-
         if ($product->configurable()) {
-            $product = Product::from('products as p')
-                ->whereRaw("p.parent_id = :parent_product_id
-							and (select pav.text_value
-									from product_attribute_values pav
-									join attributes a on a.id = pav.attribute_id
-									where a.code = :size_code
-									and pav.product_id = p.id
-									limit 1
-								) = :size_value
-							and (select pav.text_value
-									from product_attribute_values pav
-									join attributes a on a.id = pav.attribute_id
-									where a.code = :color_code
-									and pav.product_id = p.id
-									limit 1
-								) = :color_value
-								", [
-                    'parent_product_id' => $product->id,
-                    'size_code' => 'size',
-                    'size_value' => $params['size'],
-                    'color_code' => 'color',
-                    'color_value' => $params['color'],
-                ])->firstOrFail(); // .. 2
-
-            // var_dump($product->id);exit; // .. 4
+            $product = $this->catalogRepository->getProductByAttributes($product, $params);
 
             $attribute['size'] = $params['size'];
             $attribute['color'] = $params['color'];
         }
 
-        $itemQuantity = $this->_getItemQuantity(md5($product->id)) + $params['qty'];
-        $this->_checkProductInventory($product, $itemQuantity);
+        $itemQuantity = $this->cartRepository->getItemQuantity($product->id, $params['qty']);
+
+        $this->catalogRepository->checkProductInventory($product, $itemQuantity);
 
         $item = [
             'id' => md5($product->id),
@@ -87,34 +64,11 @@ class CartController extends Controller
             'associatedModel' => $product
         ];
 
-        CartFacade::add($item); // .. 5
+        $this->cartRepository->addItem($item);
 
         session()->flash('success', 'Product' . $item['name'] . 'has been been added to cart!');
 
-        return redirect('product/' . $slug);
-    }
-
-    private function _getItemQuantity($itemId)
-    {
-        $items = CartFacade::getContent();
-        $itemQuantity = 0;
-        if ($items) {
-            foreach ($items as $item) {
-                if ($item->id == $itemId) {
-                    $itemQuantity = $item->quantity;
-                    break;
-                }
-            }
-        }
-
-        return $itemQuantity;
-    }
-
-    private function _checkProductInventory($product, $itemQuantity)
-    {
-        if ($product->productInventory->qty < $itemQuantity) {
-            throw new OutOfStockException('The product ' . $product->sku . ' is out of stock');
-        }
+        return redirect('product/' . $product->slug);
     }
 
     /**
@@ -130,12 +84,10 @@ class CartController extends Controller
 
         if ($items = $params['items']) {
             foreach ($items as $cartID => $item) {
-                CartFacade::update($cartID, [ // .. 6
-                    'quantity' => [
-                        'relative' => false,
-                        'value' => $item['quantity']
-                    ]
-                ]);
+                $cartItem = $this->cartRepository->getCartItem($cartID);
+                $this->catalogRepository->checkProductInventory($cartItem->associatedModel, $item['quantity']);
+
+                $this->cartRepository->updateCart($cartID, $item['quantity']);
             }
         }
 
@@ -152,7 +104,7 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        CartFacade::remove($id);
+        $this->cartRepository->removeItem($id);
 
         return redirect()->route('carts.index');
     }
@@ -169,27 +121,6 @@ class CartController extends Controller
 
 // h: DOKUMENTASI
 
-// p: clue 1
-// getContent()
-// mengambil semua item product
-
-// p: clue 2
-// kita input product induknya
-// karena configurable
-// jadi kita harus mencari variant dari product yang sesuai dengan attribute yang dipilih
-// kemudian dikirimkan ke product_attribute_values
-
-// p: clue 3
-// id product disini mengacu pada parent product configurable
-
-// p: clue 4
-// setelah proses query
-// id product disini mengacu pada id product variant dari parent product
-
-// p: clue 5
-// CartFacade::add($item);
-// menambahkan item yang sudah kita siapkan ke keranjang
-
 // p: clue 6
 // CartFacade::update()
 // relative nya kita buat false (default nya true, menambah / incrementing)
@@ -205,7 +136,6 @@ class CartController extends Controller
 // k: pada partials/mini_cart.blade.php
 // Cart::getTotalQuantity()
 // mendapatkan total quantity
-
 
 // Cart::getCondition('TAX 10%')->
 // disitu kita menambahkan kondisi (pajak, ongkos kirim, dan lain lain)

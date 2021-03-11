@@ -21,6 +21,14 @@ interface CatalogRepositoryInterface
     public function findBySlug($slug);
 
     /**
+     * findById
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function findByProductId($productId);
+
+    /**
      * getAttributeOptions
      *
      * @return void
@@ -55,4 +63,21 @@ interface CatalogRepositoryInterface
      * @return void
      */
     public function getMinPrice();
+
+    /**
+     * getAttributesByProductId
+     *
+     * @param  mixed $params
+     * @return void
+     */
+    public function getProductByAttributes($product, $params);
+
+    /**
+     * checkProductInventory
+     *
+     * @param  mixed $product
+     * @param  mixed $itemQuantity
+     * @return void
+     */
+    public function checkProductInventory($product, $itemQuantity);
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Front;
 
+use App\Exceptions\OutOfStockException;
 use App\Repositories\Front\Interfaces\CatalogRepositoryInterface;
 
 use App\Models\AttributeOption;
@@ -39,6 +40,17 @@ class CatalogRepository implements CatalogRepositoryInterface
     public function findBySlug($slug)
     {
         return Product::active()->where('slug', $slug)->firstOrFail();
+    }
+
+    /**
+     * findById
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function findByProductId($productId)
+    {
+        return Product::findOrFail($productId);
     }
 
     /**
@@ -85,11 +97,46 @@ class CatalogRepository implements CatalogRepositoryInterface
         return Product::min('price');
     }
 
+    /**
+     * getProductByAttributes
+     *
+     * @param  mixed $product
+     * @param  mixed $params
+     * @return void
+     */
+    public function getProductByAttributes($product, $params)
+    {
+        // var_dump($product->id); // .. 3
+        // echo "<br>";
 
+        return Product::from('products as p')
+            ->whereRaw("p.parent_id = :parent_product_id
+							and (select pav.text_value
+									from product_attribute_values pav
+									join attributes a on a.id = pav.attribute_id
+									where a.code = :size_code
+									and pav.product_id = p.id
+									limit 1
+								) = :size_value
+							and (select pav.text_value
+									from product_attribute_values pav
+									join attributes a on a.id = pav.attribute_id
+									where a.code = :color_code
+									and pav.product_id = p.id
+									limit 1
+								) = :color_value
+								", [
+                'parent_product_id' => $product->id,
+                'size_code' => 'size',
+                'size_value' => $params['size'],
+                'color_code' => 'color',
+                'color_value' => $params['color'],
+            ])->firstOrFail(); // .. 2
 
+        // var_dump($product->id);exit; // .. 4
+    }
 
-
-
+    // k: ================= Private method ================================
 
     /**
      * searchProducts
@@ -227,4 +274,41 @@ class CatalogRepository implements CatalogRepositoryInterface
 
         return $products;
     }
+
+    /**
+     * checkProductInventory
+     *
+     * @param  mixed $product
+     * @param  mixed $itemQuantity
+     * @return void
+     */
+    public function checkProductInventory($product, $itemQuantity)
+    {
+        if ($product->productInventory->qty < $itemQuantity) {
+            throw new OutOfStockException('The product ' . $product->sku . ' is out of stock');
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+// h: DOKUMENTASI
+
+// p: clue 2
+// kita input product induknya
+// karena configurable
+// jadi kita harus mencari variant dari product yang sesuai dengan attribute yang dipilih
+// kemudian dikirimkan ke product_attribute_values
+
+// p: clue 3
+// id product disini mengacu pada parent product configurable
+
+// p: clue 4
+// setelah proses query
+// id product disini mengacu pada id product variant dari parent product

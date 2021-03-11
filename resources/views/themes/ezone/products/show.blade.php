@@ -72,6 +72,7 @@
                     <div class="details-price">
                         <span>{{ number_format($product->price_label()) }}</span>
                     </div>
+                    <h4>Stock : {{ $product->productInventory->qty }}</h4>
                     <p>{{ $product->short_description }}</p>
                     {!! Form::open(['url' => 'carts']) !!}
                     {{ Form::hidden('product_id', $product->id) }}
@@ -94,7 +95,7 @@
                         <div class="cart-plus-minus">
                             {!! Form::number('qty', 1, ['class' => 'cart-plus-minus-box', 'placeholder' => 'qty', 'min'
                             => 1]) !!}
-                        </div>  
+                        </div>
                         <div class="quickview-btn-cart">
                             <button type="submit" style="cursor: pointer" class="submit contact-btn btn-hover">add to cart</button>
                         </div>

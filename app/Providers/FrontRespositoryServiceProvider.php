@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\Front\CartRepository;
 use App\Repositories\Front\CatalogRepository;
+use App\Repositories\Front\Interfaces\CartRepositoryInterface;
 use App\Repositories\Front\Interfaces\CatalogRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,6 +20,11 @@ class FrontRespositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             CatalogRepositoryInterface::class,
             CatalogRepository::class,
+        );
+
+        $this->app->bind(
+            CartRepositoryInterface::class,
+            CartRepository::class
         );
     }
 
