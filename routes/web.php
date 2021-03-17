@@ -49,7 +49,6 @@ Route::post('carts/update', [CartController::class, 'update'])->name('cart.updat
 
 // order
 Route::get('orders', [OrderController::class, 'index']);
-Route::get('orders/{id}', [OrderController::class, 'show']);
 Route::get('orders/checkout', [OrderController::class, 'checkout']);
 Route::post('orders/checkout', [OrderController::class, 'doCheckout']);
 Route::post('orders/shipping-cost', [OrderController::class, 'shippingCost']);
@@ -57,6 +56,7 @@ Route::post('orders/set-shipping', [OrderController::class, 'setShipping']);
 Route::get('orders/received/{orderID}', [OrderController::class, 'received']);
 Route::get('orders/invoice', [OrderController::class, 'invoice']);
 Route::get('orders/cities', [OrderController::class, 'cities']);
+Route::get('orders/{id}', [OrderController::class, 'show']);
 
 // payment
 Route::post('payments/notification', [PaymentController::class, 'notification']);

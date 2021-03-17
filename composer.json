@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "barryvdh/laravel-dompdf": "^0.8.7",
+        "barryvdh/laravel-dompdf": "^0.9.0",
         "darryldecode/cart": "^4.2",
         "doctrine/dbal": "^3.0",
         "fideloper/proxy": "^4.4",
@@ -21,7 +21,9 @@
         "laravel/ui": "^3.1",
         "laravelcollective/html": "^6.2",
         "maatwebsite/excel": "^3.1",
-        "spatie/laravel-permission": "^3.18"
+        "phpoffice/phpspreadsheet": "^1.16",
+        "spatie/laravel-permission": "^3.18",
+        "midtrans/midtrans-php": "2.*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
