@@ -53,4 +53,65 @@ interface CartRepositoryInterface
      * @return void
      */
     public function removeItem($cartId);
+
+    /**
+     * isEmpty
+     *
+     * @return void
+     */
+    public function isEmpty();
+
+    /**
+     * removeConditionsByType
+     *
+     * @param  mixed $type
+     * @return void
+     */
+    public function removeConditionsByType($type);
+
+    /**
+     * updateTax
+     *
+     * @return void
+     */
+    public function updateTax();
+
+    /**
+     * getTotalWeight
+     *
+     * @return void
+     */
+    public function getTotalWeight();
+
+    /**
+     * getTotal
+     *
+     * @return void
+     */
+    public function getTotal();
+
+    /**
+     * addShippingCostToCart
+     *
+     * @param  mixed $serviceName
+     * @param  mixed $cost
+     * @return void
+     */
+    public function addShippingCostToCart($serviceName, $cost);
+
+    /**
+     * getShippingCost
+     *
+     * @param  mixed $destination
+     * @param  mixed $weight
+     * @return void
+     */
+    public function getShippingCost($destination, $weight);
+
+    /**
+     * clear
+     *
+     * @return void
+     */
+    public function clear();
 }

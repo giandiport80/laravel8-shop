@@ -6,6 +6,8 @@ use App\Repositories\Front\CartRepository;
 use App\Repositories\Front\CatalogRepository;
 use App\Repositories\Front\Interfaces\CartRepositoryInterface;
 use App\Repositories\Front\Interfaces\CatalogRepositoryInterface;
+use App\Repositories\Front\Interfaces\OrderRepositoryInterface;
+use App\Repositories\Front\OrderRepository;
 use Illuminate\Support\ServiceProvider;
 
 class FrontRespositoryServiceProvider extends ServiceProvider
@@ -25,6 +27,11 @@ class FrontRespositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             CartRepositoryInterface::class,
             CartRepository::class
+        );
+
+        $this->app->bind(
+            OrderRepositoryInterface::class,
+            OrderRepository::class
         );
     }
 

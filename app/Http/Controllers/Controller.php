@@ -15,22 +15,11 @@ class Controller extends BaseController
 
     protected $data = [];
     protected $uploadsFolder = 'uploads/';
-    protected $rajaOngkirApiKey = null;
-    protected $rajaOngkirBaseUrl = null;
-    protected $rajaOngkirOrigin = null;
-    protected $couriers = [
-        'jne' => 'JNE',
-        'pos' => 'POS Indonesia',
-        'tiki' => 'Titipan Kilat'
-    ];
+
     protected $provinces = [];
 
     public function __construct()
     {
-        $this->rajaOngkirApiKey = env('RAJAONGKIR_API_KEY');
-        $this->rajaOngkirBaseUrl = env('RAJAONGKIR_BASE_URL');
-        $this->rajaOngkirOrigin = env('RAJAONGKIR_ORIGIN');
-
         $this->initAdminMenu();
     }
 
@@ -43,28 +32,6 @@ class Controller extends BaseController
     protected function load_theme($view, $data = [])
     {
         return view('themes/' . env('APP_THEME') . '/' . $view, $data);
-    }
-
-    protected function rajaOngkirRequest($resource, $params = [], $method = 'GET')
-    {
-        $client = new Client();
-
-        $headers = ['key' => $this->rajaOngkirApiKey];
-        $requestParams = [
-            'headers' => $headers,
-        ];
-
-        $url = $this->rajaOngkirBaseUrl . $resource;
-        if ($params && $method == 'POST') {
-            $requestParams['form_params'] = $params;
-        } else if ($params && $method == 'GET') {
-            $query = is_array($params) ? '?' . http_build_query($params) : '';
-            $url = $this->rajaOngkirBaseUrl . $resource . $query;
-        }
-
-        $response = $client->request($method, $url, $requestParams);
-
-        return json_decode($response->getBody(), true);
     }
 
     protected function getProvinces()
@@ -115,16 +82,26 @@ class Controller extends BaseController
         return $cities;
     }
 
-    protected function initPaymentGateway()
+    private function rajaOngkirRequest($resource, $params = [], $method = 'GET')
     {
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        $client = new Client();
+
+        $headers = ['key' => $this->rajaOngkirApiKey];
+        $requestParams = [
+            'headers' => $headers,
+        ];
+
+        $url = $this->rajaOngkirBaseUrl . $resource;
+        if ($params && $method == 'POST') {
+            $requestParams['form_params'] = $params;
+        } else if ($params && $method == 'GET') {
+            $query = is_array($params) ? '?' . http_build_query($params) : '';
+            $url = $this->rajaOngkirBaseUrl . $resource . $query;
+        }
+
+        $response = $client->request($method, $url, $requestParams);
+
+        return json_decode($response->getBody(), true);
     }
 }
 
