@@ -89,4 +89,16 @@ class UserController extends BaseController
     {
         return $this->responseOk($request->user());
     }
+
+    /**
+     * logout
+     *
+     * @return void
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->token()->revoke();
+
+        return $this->responseOk(null, 200, 'Logged Out Successfully');
+    }
 }

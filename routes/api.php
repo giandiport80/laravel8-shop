@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 
+Route::middleware('client')->group(function(){
+    Route::get('products', [ProductController::class, 'index']);
+});
+
 Route::middleware('auth:api')->group(function(){
     Route::get('profile', [UserController::class, 'profile']);
+    Route::get('logout', [UserController::class, 'logout']);
 });;
