@@ -20,6 +20,7 @@ Route::post('register', [UserController::class, 'register']);
 
 Route::middleware('client')->group(function(){
     Route::get('products', [ProductController::class, 'index']);
+    Route::get('products/{sku}', [ProductController::class, 'show']);
 });
 
 Route::middleware('auth:api')->group(function(){

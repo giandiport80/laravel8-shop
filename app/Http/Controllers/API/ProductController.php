@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
 use App\Repositories\Front\Interfaces\CatalogRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -27,7 +29,6 @@ class ProductController extends BaseController
             $this->perPage = $perPage;
         }
 
-
         $products = $this->catalogRepository->paginate($this->perPage, $request);
 
         $meta = [
@@ -39,6 +40,19 @@ class ProductController extends BaseController
         return $this->responseOk(new ProductCollection($products), 200, 'Success', $meta);
     }
 
+
+    /**
+     * show
+     *
+     * @param  mixed $sku
+     * @return void
+     */
+    public function show($sku)
+    {
+        $product = $this->catalogRepository->findProductBySku($sku);
+
+        return $this->responseOk(ProductResource::collection($product));
+    }
 
 }
 

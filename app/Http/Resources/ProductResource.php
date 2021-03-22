@@ -20,7 +20,9 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'price' => $this->priceLabel(),
-            'feature_image' => $this->getFeaturedImage()
+            'feature_image' => $this->getFeaturedImage(),
+            'short_description' => $this->short_description,
+            'description' => $this->description
         ];
 
         if($this->type == 'configurable' && $this->variants->count() > 0){

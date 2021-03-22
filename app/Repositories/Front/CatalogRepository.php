@@ -54,6 +54,17 @@ class CatalogRepository implements CatalogRepositoryInterface
     }
 
     /**
+     * findProductBySku
+     *
+     * @param  mixed $sku
+     * @return void
+     */
+    public function findProductBySku($sku)
+    {
+        return Product::where('sku', $sku)->get();
+    }
+
+    /**
      * getAttributeOptions
      *
      * @param  mixed $attributeName

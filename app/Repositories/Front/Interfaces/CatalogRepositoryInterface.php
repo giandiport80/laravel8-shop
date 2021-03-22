@@ -29,6 +29,14 @@ interface CatalogRepositoryInterface
     public function findByProductId($productId);
 
     /**
+     * findProductBySku
+     *
+     * @param  mixed $sku
+     * @return void
+     */
+    public function findProductBySku($sku);
+
+    /**
      * getAttributeOptions
      *
      * @return void
