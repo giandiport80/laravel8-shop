@@ -4,15 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
 use App\Jobs\SendMailOrderReceived;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Payment;
-use App\Models\ProductInventory;
-use App\Models\Shipment;
 use App\Repositories\Front\Interfaces\CartRepositoryInterface;
 use App\Repositories\Front\Interfaces\OrderRepositoryInterface;
-use Darryldecode\Cart\Facades\CartFacade;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
