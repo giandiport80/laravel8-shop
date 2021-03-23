@@ -58,13 +58,14 @@ class CartRepository implements CartRepositoryInterface
      * getCartItem
      *
      * @param  mixed $cartId
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function getCartItem($cartId)
+    public function getCartItem($cartId, $sessionKey = null)
     {
-        $items = CartFacade::getContent();
+        $items = $this->getContent($sessionKey);
 
-        return $items[$cartId];
+        return !(empty($items[$cartId])) ? $items[$cartId] : null;
     }
 
     /**
@@ -88,26 +89,38 @@ class CartRepository implements CartRepositoryInterface
      *
      * @param  mixed $cartId
      * @param  mixed $qty
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function updateCart($cartId, $qty)
+    public function updateCart($cartId, $qty, $sessionKey = null)
     {
-        return CartFacade::update($cartId, [ // .. 6
+        $params = [ // .. 6
             'quantity' => [
                 'relative' => false,
                 'value' => $qty
             ]
-        ]);
+        ];
+
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->update($cartId, $params);
+        }
+
+        return CartFacade::update($cartId, $params);
     }
 
     /**
      * removeItem
      *
-     * @param  mixed $id
+     * @param  mixed $cartTd
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function removeItem($cartTd)
+    public function removeItem($cartTd, $sessionKey = null)
     {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->remove($cartTd);
+        }
+
         return CartFacade::remove($cartTd);
     }
 
@@ -245,10 +258,15 @@ class CartRepository implements CartRepositoryInterface
     /**
      * clear
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function clear()
+    public function clear($sessionKey = null)
     {
+        if($sessionKey){
+            return CartFacade::session($sessionKey)->clear();
+        }
+
         return CartFacade::clear();
     }
 

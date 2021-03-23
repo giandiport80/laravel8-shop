@@ -30,6 +30,8 @@ Route::middleware('auth:api', 'session')->group(function(){
 
     Route::get('carts', [CartController::class, 'index']);
     Route::post('carts', [CartController::class, 'store']);
+    Route::patch('carts/{cart_id}', [CartController::class, 'update']);
+    Route::delete('carts', [CartController::class, 'clear']);
 });;
 
 

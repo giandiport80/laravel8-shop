@@ -25,9 +25,10 @@ interface CartRepositoryInterface
      * getCartItem
      *
      * @param  mixed $cartId
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function getCartItem($cartId);
+    public function getCartItem($cartId, $sessionKey = null);
 
     /**
      * addItem
@@ -43,18 +44,19 @@ interface CartRepositoryInterface
      *
      * @param  mixed $cartId
      * @param  mixed $qty
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function updateCart($cartId, $qty);
-
+    public function updateCart($cartId, $qty, $sessionKey = null);
 
     /**
      * removeItem
      *
-     * @param  mixed $id
+     * @param  mixed $cartId
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function removeItem($cartId);
+    public function removeItem($cartId, $sessionKey = null);
 
     /**
      * isEmpty
@@ -111,9 +113,10 @@ interface CartRepositoryInterface
     public function getShippingCost($destination, $weight);
 
     /**
-     * clear
+     * clear all cart
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function clear();
+    public function clear($sessionKey = null);
 }
