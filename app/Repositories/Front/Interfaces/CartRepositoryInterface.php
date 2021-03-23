@@ -7,9 +7,10 @@ interface CartRepositoryInterface
     /**
      * getContent
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function getContent();
+    public function getContent($sessionKey = null);
 
     /**
      * getItemQuantity
@@ -32,9 +33,10 @@ interface CartRepositoryInterface
      * addItem
      *
      * @param  mixed $item
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function addItem($item);
+    public function addItem($item, $sessionKey = null);
 
     /**
      * updateCart

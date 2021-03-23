@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,29 @@ Route::middleware('client')->group(function(){
     Route::get('products/{sku}', [ProductController::class, 'show']);
 });
 
-Route::middleware('auth:api')->group(function(){
+Route::middleware('auth:api', 'session')->group(function(){
     Route::get('profile', [UserController::class, 'profile']);
     Route::get('logout', [UserController::class, 'logout']);
+
+    Route::get('carts', [CartController::class, 'index']);
+    Route::post('carts', [CartController::class, 'store']);
 });;
+
+
+
+
+
+
+
+
+
+// h: DOKUMENTASI
+
+// library laravelshoppingcart membutuhkan session pada saat kita buat api
+// jadi kita perlu memodifikasi route api nya, karena session otomatis men disable session
+// kita harus aktifkan session agar library nya bisa berjalan
+// pada api, kita harus login dulu sebelum menambahkan barang ke keranjang
+// ini karena kita butuh user_id untuk identifikasi session key bahwa item dalam shopping cart punya user tsb
+
+// disini kita menerapkan middleware session yang kita buat sendiri
+// tujuannya untuk mengaktifkan session pada cart / keranjang belanja

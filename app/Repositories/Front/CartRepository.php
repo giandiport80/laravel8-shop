@@ -3,6 +3,7 @@
 namespace App\Repositories\Front;
 
 use App\Repositories\Front\Interfaces\CartRepositoryInterface;
+use Darryldecode\Cart\Cart;
 use Darryldecode\Cart\CartCondition;
 use Darryldecode\Cart\Facades\CartFacade;
 use GuzzleHttp\Client;
@@ -28,12 +29,16 @@ class CartRepository implements CartRepositoryInterface
 
     /**
      * getContent
-     * mengambil semua item product
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function getContent()
+    public function getContent($sessionKey = null)
     {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->getContent();
+        }
+
         return CartFacade::getContent();
     }
 
@@ -66,10 +71,15 @@ class CartRepository implements CartRepositoryInterface
      * addItem
      *
      * @param  mixed $item
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function addItem($item)
+    public function addItem($item, $sessionKey = null)
     {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->add($item); // .. 7
+        }
+
         return CartFacade::add($item); // .. 5
     }
 
@@ -307,3 +317,12 @@ class CartRepository implements CartRepositoryInterface
 // p: clue 5
 // CartFacade::add($item);
 // menambahkan item yang sudah kita siapkan ke keranjang
+
+// p: clue 6
+// CartFacade::update()
+// relative nya kita buat false (default nya true, menambah / incrementing)
+// agar kita replace dengan value yang kita kirim
+
+// p: clue 7
+// session key digunakan untuk api,
+// karena data tidak akan muncul kalo kita tidak menambahkan session key (dari user_id)

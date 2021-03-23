@@ -121,11 +121,6 @@ class CartController extends Controller
 
 // h: DOKUMENTASI
 
-// p: clue 6
-// CartFacade::update()
-// relative nya kita buat false (default nya true, menambah / incrementing)
-// agar kita replace dengan value yang kita kirim
-
 // k: pada carts/index.blade.php
 // Cart::getSubTotal()
 // mendapatkan seluruh total harga product di keranjang tanpa pajak / diskon

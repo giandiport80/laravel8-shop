@@ -44,6 +44,10 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'session' => [ // .. 1
+            \Illuminate\Session\Middleware\StartSession::class,
+        ]
     ];
 
     /**
@@ -66,3 +70,15 @@ class Kernel extends HttpKernel
         'client' => CheckClientCredentials::class,
     ];
 }
+
+
+
+
+
+
+
+
+
+// h: DOKUMENTASI
+
+// kita menambahkan middleware baru, khsusu digunakan untuk mengaktifkan session saja

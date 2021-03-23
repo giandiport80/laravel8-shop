@@ -61,7 +61,7 @@ class CatalogRepository implements CatalogRepositoryInterface
      */
     public function findProductBySku($sku)
     {
-        return Product::where('sku', $sku)->get();
+        return Product::where('sku', $sku)->firstOrFail();
     }
 
     /**
