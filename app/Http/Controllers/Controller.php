@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Front\CartRepository;
+use App\Repositories\Front\Interfaces\CartRepositoryInterface;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -16,11 +18,14 @@ class Controller extends BaseController
     protected $data = [];
     protected $uploadsFolder = 'uploads/';
 
+    private $cartRepository;
+
     protected $provinces = [];
 
     public function __construct()
     {
         $this->initAdminMenu();
+        $this->cartRepository = new CartRepository();
     }
 
     private function initAdminMenu()
@@ -42,7 +47,7 @@ class Controller extends BaseController
         $isExistProvinceJson = Storage::disk('local')->exists($provinceFilePath);
 
         if (!$isExistProvinceJson) {
-            $response = $this->rajaOngkirRequest('province');
+            $response = $this->cartRepository->rajaOngkirRequest('province');
             Storage::disk('local')->put($provinceFilePath, serialize($response['rajaongkir']['results']));
         }
 
@@ -66,7 +71,7 @@ class Controller extends BaseController
         $isExistCitiesJson = Storage::disk('local')->exists($cityFilePath);
 
         if (!$isExistCitiesJson) {
-            $response = $this->rajaOngkirRequest('city', ['province' => $provinceId]);
+            $response = $this->cartRepository->rajaOngkirRequest('city', ['province' => $provinceId]);
             Storage::disk('local')->put($cityFilePath, serialize($response['rajaongkir']['results']));
         }
 
@@ -82,27 +87,27 @@ class Controller extends BaseController
         return $cities;
     }
 
-    private function rajaOngkirRequest($resource, $params = [], $method = 'GET')
-    {
-        $client = new Client();
+    // private function rajaOngkirRequest($resource, $params = [], $method = 'GET')
+    // {
+    //     $client = new Client();
 
-        $headers = ['key' => $this->rajaOngkirApiKey];
-        $requestParams = [
-            'headers' => $headers,
-        ];
+    //     $headers = ['key' => $this->rajaOngkirApiKey];
+    //     $requestParams = [
+    //         'headers' => $headers,
+    //     ];
 
-        $url = $this->rajaOngkirBaseUrl . $resource;
-        if ($params && $method == 'POST') {
-            $requestParams['form_params'] = $params;
-        } else if ($params && $method == 'GET') {
-            $query = is_array($params) ? '?' . http_build_query($params) : '';
-            $url = $this->rajaOngkirBaseUrl . $resource . $query;
-        }
+    //     $url = $this->rajaOngkirBaseUrl . $resource;
+    //     if ($params && $method == 'POST') {
+    //         $requestParams['form_params'] = $params;
+    //     } else if ($params && $method == 'GET') {
+    //         $query = is_array($params) ? '?' . http_build_query($params) : '';
+    //         $url = $this->rajaOngkirBaseUrl . $resource . $query;
+    //     }
 
-        $response = $client->request($method, $url, $requestParams);
+    //     $response = $client->request($method, $url, $requestParams);
 
-        return json_decode($response->getBody(), true);
-    }
+    //     return json_decode($response->getBody(), true);
+    // }
 }
 
 

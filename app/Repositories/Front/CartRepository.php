@@ -36,9 +36,11 @@ class CartRepository implements CartRepositoryInterface
     public function getContent($sessionKey = null)
     {
         if ($sessionKey) {
+            $this->updateTax($sessionKey); // .. 8
             return CartFacade::session($sessionKey)->getContent();
         }
 
+        $this->updateTax();
         return CartFacade::getContent();
     }
 
@@ -124,8 +126,18 @@ class CartRepository implements CartRepositoryInterface
         return CartFacade::remove($cartTd);
     }
 
-    public function isEmpty()
+    /**
+     * isEmpty
+     *
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function isEmpty($sessionKey = null)
     {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->isEmpty();
+        }
+
         return CartFacade::isEmpty();
     }
 
@@ -133,21 +145,26 @@ class CartRepository implements CartRepositoryInterface
      * removeConditionsByType
      *
      * @param  mixed $type
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function removeConditionsByType($type)
+    public function removeConditionsByType($type, $sessionKey = null)
     {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->removeConditionsByType($type);
+        }
+
         return CartFacade::removeConditionsByType($type);
     }
 
     /**
      * updateTax
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function updateTax()
+    public function updateTax($sessionKey = null)
     {
-        CartFacade::removeConditionsByType('tax'); // .. 2
 
         $condition = new CartCondition([
             'name' => 'TAX 10%',
@@ -156,22 +173,41 @@ class CartRepository implements CartRepositoryInterface
             'value' => '10%',
         ]);
 
-        CartFacade::condition($condition);
+        if ($sessionKey) {
+            CartFacade::session($sessionKey)->removeConditionsByType('tax'); // .. 2
+            CartFacade::session($sessionKey)->condition($condition);
+        } else {
+            CartFacade::removeConditionsByType('tax'); // .. 2
+            CartFacade::condition($condition);
+        }
     }
 
     /**
      * getTotalWeight
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function getTotalWeight()
+    public function getTotalWeight($sessionKey = null)
     {
-        if (CartFacade::isEmpty()) {
-            return 0;
+        if ($sessionKey) {
+            if (CartFacade::session($sessionKey)->isEmpty()) {
+                return 0;
+            }
+        } else {
+            if (CartFacade::isEmpty()) {
+                return 0;
+            }
         }
 
         $totalWeight = 0;
-        $items = CartFacade::getContent();
+
+        if ($sessionKey) {
+            $items = $this->getContent($sessionKey);
+        } else {
+            $items = CartFacade::getContent();
+        }
+
 
         foreach ($items as $item) {
             $totalWeight += ($item->quantity * $item->associatedModel->weight);
@@ -185,9 +221,28 @@ class CartRepository implements CartRepositoryInterface
      *
      * @return void
      */
-    public function getTotal()
+    public function getTotal($sessionKey = null)
     {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->getTotal();
+        }
+
         return CartFacade::getTotal();
+    }
+
+    /**
+     * getSubTotal
+     *
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getSubTotal($sessionKey = null)
+    {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->getSubTotal();
+        }
+
+        return CartFacade::getSubTotal();
     }
 
     public function addShippingCostToCart($serviceName, $cost)
@@ -263,11 +318,27 @@ class CartRepository implements CartRepositoryInterface
      */
     public function clear($sessionKey = null)
     {
-        if($sessionKey){
+        if ($sessionKey) {
             return CartFacade::session($sessionKey)->clear();
         }
 
         return CartFacade::clear();
+    }
+
+    /**
+     * getConditionValue
+     *
+     * @param  mixed $name
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getConditionValue($name, $sessionKey = null)
+    {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->getCondition($name);
+        }
+
+        return CartFacade::getCondition($name);
     }
 
     // k: ==================== private method ====================
@@ -344,3 +415,6 @@ class CartRepository implements CartRepositoryInterface
 // p: clue 7
 // session key digunakan untuk api,
 // karena data tidak akan muncul kalo kita tidak menambahkan session key (dari user_id)
+
+// p: clue 8
+// kita update tax nya agar masuk ke cart

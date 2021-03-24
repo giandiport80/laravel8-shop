@@ -52,7 +52,7 @@ class OrderController extends Controller
         $items = $this->cartRepository->getContent();
 
         $this->data['items'] = $items;
-        $this->data['totalWeight'] = $this->getTotalWeight() / 1000; // .. 1
+        $this->data['totalWeight'] = $this->cartRepository->getTotalWeight() / 1000; // .. 1
         $this->data['user'] = Auth::user();
         $this->data['provinces'] = $this->getProvinces();
         $this->data['cities'] = isset(Auth::user()->province_id) ? $this->getCities(Auth::user()->province_id) : [];
@@ -63,10 +63,9 @@ class OrderController extends Controller
 
     public function shippingCost(Request $request) // .. 3
     {
-
         $destination = $request->input('city_id');
 
-        return $this->getShippingCost($destination, $this->getTotalWeight());
+        return $this->getShippingCost($destination, $this->cartRepository->getTotalWeight());
     }
 
     public function cities(Request $request)
@@ -85,7 +84,7 @@ class OrderController extends Controller
         $shippingService = $request->get('shipping_service');
         $destination = $request->get('city_id');
 
-        $shippingOptions = $this->getShippingCost($destination, $this->getTotalWeight());
+        $shippingOptions = $this->getShippingCost($destination, $this->cartRepository->getTotalWeight());
 
         $selectedShipping = null;
         if ($shippingOptions['results']) {

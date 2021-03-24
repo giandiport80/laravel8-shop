@@ -61,38 +61,51 @@ interface CartRepositoryInterface
     /**
      * isEmpty
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function isEmpty();
+    public function isEmpty($sessionKey = null);
 
     /**
      * removeConditionsByType
      *
      * @param  mixed $type
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function removeConditionsByType($type);
+    public function removeConditionsByType($type, $sessionKey = null);
 
     /**
      * updateTax
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function updateTax();
+    public function updateTax($sessionKey = null);
 
     /**
      * getTotalWeight
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function getTotalWeight();
+    public function getTotalWeight($sessionKey = null);
 
     /**
      * getTotal
      *
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function getTotal();
+    public function getTotal($sessionKey = null);
+
+    /**
+     * getSubTotal
+     *
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getSubTotal($sessionKey = null);
 
     /**
      * addShippingCostToCart
@@ -119,4 +132,13 @@ interface CartRepositoryInterface
      * @return void
      */
     public function clear($sessionKey = null);
+
+    /**
+     * getConditionValue
+     *
+     * @param  mixed $name
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getConditionValue($name, $sessionKey = null);
 }

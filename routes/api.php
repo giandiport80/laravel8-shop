@@ -32,6 +32,9 @@ Route::middleware('auth:api', 'session')->group(function(){
     Route::post('carts', [CartController::class, 'store']);
     Route::patch('carts/{cart_id}', [CartController::class, 'update']);
     Route::delete('carts', [CartController::class, 'clear']);
+
+    Route::get('shipping-options', [CartController::class, 'shippingOptions']);
+    Route::post('set-shipping', [CartController::class, 'setShipping']);
 });;
 
 

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Exceptions\OutOfStockException;
 use App\Http\Resources\ItemResource;
-use App\Http\Resources\ProductResource;
-use App\Models\Product;
 use App\Repositories\Front\Interfaces\CartRepositoryInterface;
 use App\Repositories\Front\Interfaces\CatalogRepositoryInterface;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,7 +26,14 @@ class CartController extends BaseController
     {
         $items = $this->cartRepository->getContent($this->getSessionKey($request));
 
-        return $this->responseOk(ItemResource::collection($items));
+        $cart = [
+            'items' => ItemResource::collection($items),
+            'shipping_cost' => $this->cartRepository->getConditionValue('shipping_cost', $this->getSessionKey($request)),
+            'tax_amount' => $this->cartRepository->getConditionValue('TAX 10%', $this->getSessionKey($request)),
+            'total' => $this->cartRepository->getTotal($this->getSessionKey($request))
+        ];
+
+        return $this->responseOk($cart);
     }
 
     public function store(Request $request)
@@ -56,26 +62,25 @@ class CartController extends BaseController
             $attribute['color'] = $params['color'];
         }
 
-        try{
+        try {
 
-        $itemQuantity = $this->cartRepository->getItemQuantity($product->id, $params['qty']);
+            $itemQuantity = $this->cartRepository->getItemQuantity($product->id, $params['qty']);
 
-        $this->catalogRepository->checkProductInventory($product, $itemQuantity);
+            $this->catalogRepository->checkProductInventory($product, $itemQuantity);
 
-        $item = [
-            'id' => md5($product->id),
-            'name' => $product->name,
-            'price' => $product->price,
-            'quantity' => $params['qty'],
-            'attributes' => $attribute,
-            'associatedModel' => $product
-        ];
+            $item = [
+                'id' => md5($product->id),
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $params['qty'],
+                'attributes' => $attribute,
+                'associatedModel' => $product
+            ];
 
-        if ($this->cartRepository->addItem($item, $this->getSessionKey($request))) {
-            return $this->responseOk(true, 200, 'success');
-        };
-
-        }catch(OutOfStockException $error){
+            if ($this->cartRepository->addItem($item, $this->getSessionKey($request))) {
+                return $this->responseOk(true, 200, 'success');
+            };
+        } catch (OutOfStockException $error) {
             return $this->responseError($error->getMessage(), 400);
         }
 
@@ -95,19 +100,19 @@ class CartController extends BaseController
 
         $cartItem = $this->cartRepository->getCartItem($cart_id, $this->getSessionKey($request));
 
-        if(!$cartItem){
+        if (!$cartItem) {
             return $this->responseError('Item not found', 404);
         }
 
         try {
             $this->catalogRepository->checkProductInventory($cartItem->associatedModel, $params['qty']);
 
-            if($this->cartRepository->updateCart($cart_id, $params['qty'], $this->getSessionKey($request))){
+            if ($this->cartRepository->updateCart($cart_id, $params['qty'], $this->getSessionKey($request))) {
                 return $this->responseOk(true, 200, 'Item has been updated!');
             };
 
             return $this->responseError('Update item failed', 422);
-        }catch(OutOfStockException $error){
+        } catch (OutOfStockException $error) {
             return $this->responseError($error->getMessage(), 400);
         }
 
@@ -122,7 +127,7 @@ class CartController extends BaseController
             return $this->responseError('Item not found', 404);
         }
 
-        if($this->cartRepository->removeItem($cart_id, $this->getSessionKey($request))){
+        if ($this->cartRepository->removeItem($cart_id, $this->getSessionKey($request))) {
             return $this->responseOk(true, 200, 'Item has been deleted');
         }
 
@@ -131,11 +136,81 @@ class CartController extends BaseController
 
     public function clear(Request $request)
     {
-        if($this->cartRepository->clear($this->getSessionKey($request))){
+        if ($this->cartRepository->clear($this->getSessionKey($request))) {
             return $this->responseOk(true, 200, 'Item has been cleared');
         }
 
         return $this->responseError('Clear cart failed', 400);
+    }
+
+    public function shippingOptions(Request $request)
+    {
+        $params = $request->all();
+
+        $validator = Validator::make($params, [
+            'city_id' => ['required', 'numeric']
+        ]);
+
+        if ($validator->fails()) {
+            return $this->responseError('Get shipping options failed', 422, $validator->errors());
+        }
+
+        try {
+            $destination = $params['city_id'];
+            $weight = $this->cartRepository->getTotalWeight($this->getSessionKey($request));
+
+            return $this->responseOk($this->cartRepository->getShippingCost($destination, $weight), 200, 'sucess');
+        } catch (RequestException $error) {
+            return $this->responseError($error->getMessage(), 400);
+        }
+
+        return $this->responseError('get shipping cost failed', 400);
+    }
+
+    public function setShipping(Request $request)
+    {
+        $params = $request->all();
+        $validator = Validator::make($params, [
+            'city_id' => ['required', 'numeric'],
+            'shipping_service' => ['required', 'string']
+        ]);
+
+        if ($validator->fails()) {
+            return $this->responseError('Set shipping failed', 422, $validator->errors());
+        }
+
+        $this->cartRepository->removeConditionsByType('shipping', $this->getSessionKey($request));
+
+        $shippingService = $request->get('shipping_service');
+        $destination = $request->get('city_id');
+
+        $shippingOptions = $this->cartRepository->getShippingCost($destination, $this->cartRepository->getTotalWeight($this->getSessionKey($request)));
+
+        $selectedShipping = null;
+        if ($shippingOptions['results']) {
+            foreach ($shippingOptions['results'] as $shippingOption) {
+                if (str_replace(' ', '', $shippingOption['service']) == $shippingService) {
+                    $selectedShipping = $shippingOption;
+                    break;
+                }
+            }
+        }
+
+        $status = null;
+        $message = null;
+        $data = [];
+        if ($selectedShipping) {
+            $status = 200;
+            $message = 'Success set shipping cost';
+
+            $this->cartRepository->addShippingCostToCart('shipping_cost', $selectedShipping['cost']);
+
+            $data['total'] = number_format($this->cartRepository->getTotal());
+
+            return $this->responseOk($data, 200, 'success');
+        }
+
+        return $this->responseError('failed to set shipping cost', 400);
     }
 
     private function getSessionKey($request)
