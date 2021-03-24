@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,8 @@ Route::middleware('auth:api', 'session')->group(function(){
 
     Route::get('shipping-options', [CartController::class, 'shippingOptions']);
     Route::post('set-shipping', [CartController::class, 'setShipping']);
+
+    Route::post('orders/checkout', [OrderController::class, 'doCheckout']);
 });;
 
 

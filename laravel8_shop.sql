@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2020 at 09:39 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- Generation Time: Mar 24, 2021 at 04:46 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -112,7 +112,7 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `parent_id`, `created_at`, `upda
 (11, 'Pakaian Anak-anak', 'pakaian-anak-anak', 0, '2020-12-22 08:20:45', '2020-12-22 08:20:45'),
 (12, 'Pakaian anak laki-laki', 'pakaian-anak-laki-laki', 11, '2020-12-22 08:21:07', '2020-12-22 08:22:10'),
 (13, 'Pakaian anak perempuan', 'pakaian-anak-perempuan', 11, '2020-12-22 08:21:50', '2020-12-22 08:21:57'),
-(14, 'Batik Wanita', 'batik-wanita', 8, '2020-12-22 08:28:02', '2020-12-22 08:28:02'),
+(14, 'Batik Wanita up to date', 'batik-wanita-up-to-date', 8, '2020-12-22 08:28:02', '2021-03-08 06:57:16'),
 (15, 'Batik Pria', 'batik-pria', 1, '2020-12-22 08:28:14', '2020-12-22 08:28:14');
 
 -- --------------------------------------------------------
@@ -151,8 +151,7 @@ CREATE TABLE `favorites` (
 
 INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
 (2, 9, 3, '2020-12-21 13:14:50', '2020-12-21 13:14:50'),
-(3, 9, 4, '2020-12-21 13:14:52', '2020-12-21 13:14:52'),
-(4, 9, 7, '2020-12-21 13:17:22', '2020-12-21 13:17:22');
+(3, 9, 4, '2020-12-21 13:14:52', '2020-12-21 13:14:52');
 
 -- --------------------------------------------------------
 
@@ -175,13 +174,11 @@ CREATE TABLE `jobs` (
 --
 
 INSERT INTO `jobs` (`id`, `queue`, `payload`, `attempts`, `reserved_at`, `available_at`, `created_at`) VALUES
-(6, 'default', '{\"uuid\":\"d49c6dcb-894e-4b98-88fc-2c45ecab6709\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":11:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:18;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:9;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1608446467, 1608446467),
-(7, 'default', '{\"uuid\":\"9d9da2ff-c126-4f48-b9d6-00d3e534964d\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":11:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:19;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:9;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1608450459, 1608450459),
-(8, 'default', '{\"uuid\":\"387b1948-7e61-4031-a1e7-303ef848f83c\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":11:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:20;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:9;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1608451367, 1608451367),
-(9, 'default', '{\"uuid\":\"1854c9e4-47ce-47ab-a2c2-78e971b6cd91\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":11:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:21;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:9;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1608452092, 1608452092),
-(10, 'default', '{\"uuid\":\"54668ac5-bc6b-4fd0-aa7a-627463d9996f\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":11:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:22;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:9;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1608452321, 1608452321),
-(11, 'default', '{\"uuid\":\"ea396786-b5b1-48f1-b601-f1f9083e28d1\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":11:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:23;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:9;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1608452708, 1608452708),
-(12, 'default', '{\"uuid\":\"1bec5d27-ddda-4744-a34f-617426668546\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":11:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:24;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:9;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1608453023, 1608453023);
+(16, 'default', '{\"uuid\":\"3d1b89fc-4b25-4a0d-9ccb-6386216c7f89\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":12:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:41;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:10;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:11:\\\"afterCommit\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1616039452, 1616039452),
+(17, 'default', '{\"uuid\":\"dde68819-50c8-4343-8027-067ed504597a\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":12:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:44;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:10;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:11:\\\"afterCommit\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1616552827, 1616552827),
+(18, 'default', '{\"uuid\":\"743278e8-5cfa-4ab8-8500-cc3021fa61a5\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":12:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:45;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:10;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:11:\\\"afterCommit\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1616582266, 1616582266),
+(19, 'default', '{\"uuid\":\"07c73759-4a2e-4d60-bd01-33e860b85087\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":12:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:49;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:10;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:11:\\\"afterCommit\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1616600385, 1616600385),
+(20, 'default', '{\"uuid\":\"7eecb93e-baf2-4f2e-8a93-a5fd6f3a3be4\",\"displayName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailOrderReceived\",\"command\":\"O:30:\\\"App\\\\Jobs\\\\SendMailOrderReceived\\\":12:{s:8:\\\"\\u0000*\\u0000order\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:16:\\\"App\\\\Models\\\\Order\\\";s:2:\\\"id\\\";i:50;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:7:\\\"\\u0000*\\u0000user\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:15:\\\"App\\\\Models\\\\User\\\";s:2:\\\"id\\\";i:10;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:11:\\\"afterCommit\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1616600556, 1616600556);
 
 -- --------------------------------------------------------
 
@@ -230,7 +227,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (66, '2020_12_20_130854_add_payment_token_to_orders_table', 7),
 (67, '2020_12_20_131151_add_status_to_payments_table', 7),
 (68, '2020_12_21_193627_create_favorites_table', 8),
-(69, '2020_12_22_101832_create_slides_table', 9);
+(69, '2020_12_22_101832_create_slides_table', 9),
+(75, '2016_06_01_000001_create_oauth_auth_codes_table', 10),
+(76, '2016_06_01_000002_create_oauth_access_tokens_table', 10),
+(77, '2016_06_01_000003_create_oauth_refresh_tokens_table', 10),
+(78, '2016_06_01_000004_create_oauth_clients_table', 10),
+(79, '2016_06_01_000005_create_oauth_personal_access_clients_table', 10);
 
 -- --------------------------------------------------------
 
@@ -263,7 +265,120 @@ CREATE TABLE `model_has_roles` (
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\Models\\User', 1),
 (2, 'App\\Models\\User', 2),
-(3, 'App\\Models\\User', 9);
+(3, 'App\\Models\\User', 9),
+(3, 'App\\Models\\User', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_access_tokens`
+--
+
+CREATE TABLE `oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_access_tokens`
+--
+
+INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+('02b412cfb8410478036f71f9b39a07c4d1ccd555851c522a0507921855b66c49e75c2f9c1e8d5f37', 11, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 0, '2021-03-22 03:13:50', '2021-03-22 03:13:50', '2022-03-22 10:13:50'),
+('08063eae0cb9ccf52ce823661aa38f7841a9e5b634645c8a57b968b0e550d2aab7337eb039f22a5c', 10, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 0, '2021-03-22 07:13:27', '2021-03-22 07:13:27', '2022-03-22 14:13:27'),
+('1212f0c475aade1b176006f7e468be096b42cffa7c584cacf227391359475dedaabc50fe36754311', 10, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 0, '2021-03-22 02:46:20', '2021-03-22 02:46:20', '2022-03-22 09:46:20'),
+('1fc1a3b448f81cc4ae18af52366cf80f10875a957c5c53cd6f124455984789896121bc2180a0e895', 10, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 1, '2021-03-22 03:17:18', '2021-03-22 03:17:18', '2022-03-22 10:17:18'),
+('238a2f1893706d5c4c39ac44250721f5786e7f7bddbcba8ae9769b401db964f67728a20a17c79562', 10, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 0, '2021-03-22 02:44:44', '2021-03-22 02:44:44', '2022-03-22 09:44:44'),
+('2d877aa2ae877b91d297947499afb229557984138f504d4c77b03bccba8ebd0a5486593597d9019c', 12, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 0, '2021-03-22 03:15:08', '2021-03-22 03:15:08', '2022-03-22 10:15:08'),
+('406fbf9901c992fca418d933aef3725541bd4053d156a741e1b575e7e95550322cc39a96d8b3d2d8', 10, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 0, '2021-03-22 02:46:48', '2021-03-22 02:46:48', '2022-03-22 09:46:48'),
+('5b477effc6ab24ec9a3a2d1d02634d48057700d3c207c9c466abbe82e1601c1aa18d3667fe580234', NULL, '9302a7ac-a56b-4145-8761-ccc5bab2d52f', NULL, '[]', 0, '2021-03-22 07:11:41', '2021-03-22 07:11:41', '2022-03-22 14:11:41'),
+('67fa05583ea373cb20742e41f8d078b31fad8d39b9d01f4cacc1e9176c1d98815e7f8c2d481cd106', 10, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 0, '2021-03-23 03:24:35', '2021-03-23 03:24:35', '2022-03-23 10:24:35'),
+('941d129698285715282c23b0f39fae5b953e5b90ab93505681aa38148d151c45c5ad0bf2c8a3e3d2', 10, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', 'MyToken', '[]', 0, '2021-03-21 13:51:34', '2021-03-21 13:51:34', '2022-03-21 20:51:34'),
+('c560234c19eea1c4b6ea227bd8fa0328f57435c6220d67eff6875cfef43a8fc1b2034e2513f62be1', NULL, '9302a7ac-a56b-4145-8761-ccc5bab2d52f', NULL, '[]', 0, '2021-03-22 12:00:38', '2021-03-22 12:00:38', '2022-03-22 19:00:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_auth_codes`
+--
+
+CREATE TABLE `oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_clients`
+--
+
+CREATE TABLE `oauth_clients` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `provider` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_clients`
+--
+
+INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `provider`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+('92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', NULL, 'LARAVEL8 SHOP Personal Access Client', 'OouuQjRbCTaPyKUwEUj9QSdXOfmbM1ngJmISjDAX', NULL, 'http://localhost', 1, 0, 0, '2021-03-18 08:52:42', '2021-03-18 08:52:42'),
+('92fac5b2-07a0-42ea-8495-e2a160f1c554', NULL, 'LARAVEL8 SHOP Password Grant Client', 'SXOhet1GDVXAafKDw6zSqXKreQrsNIHVAWZP71MX', 'users', 'http://localhost', 0, 1, 0, '2021-03-18 08:52:42', '2021-03-18 08:52:42'),
+('9302a7ac-a56b-4145-8761-ccc5bab2d52f', NULL, 'ClientApp', 'GZR2S3sS5DXbBNfHAZYaHJDleIhFefffeeSNOg5Y', NULL, '', 0, 0, 0, '2021-03-22 06:55:23', '2021-03-22 06:55:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_personal_access_clients`
+--
+
+CREATE TABLE `oauth_personal_access_clients` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `client_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_personal_access_clients`
+--
+
+INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
+(1, '92fac5b1-c2ee-4e1a-85cf-0a30e24fc78a', '2021-03-18 08:52:42', '2021-03-18 08:52:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_refresh_tokens`
+--
+
+CREATE TABLE `oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -324,7 +439,16 @@ INSERT INTO `orders` (`id`, `user_id`, `code`, `status`, `order_date`, `payment_
 (21, 9, 'INV/20201220/XII/XX/00004', 'created', '2020-12-20 15:14:51', '2020-12-27 15:14:51', 'unpaid', '64d2efec-b4b5-4f18-94ac-26a67f3681a3', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/64d2efec-b4b5-4f18-94ac-26a67f3681a3', '159500.00', '15950.00', '10.00', '0.00', '0.00', '11000.00', '186450.00', 'sweater hitam', 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '109', '9', 15520, 'jne', 'JNE - REG', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-20 08:14:51', '2020-12-20 08:14:52'),
 (22, 9, 'INV/20201220/XII/XX/00005', 'completed', '2020-12-20 15:18:40', '2020-12-27 15:18:40', 'paid', '89dfaf6b-87ce-4836-b44f-53fae01dc90f', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/89dfaf6b-87ce-4836-b44f-53fae01dc90f', '192500.00', '19250.00', '10.00', '0.00', '0.00', '18000.00', '229750.00', NULL, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '455', '3', 15520, 'jne', 'JNE - CTCYES', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-20 08:18:40', '2020-12-22 07:53:48'),
 (23, 9, 'INV/20201220/XII/XX/00006', 'completed', '2020-12-20 15:25:07', '2020-12-27 15:25:07', 'paid', '0a5301e8-3ad8-4498-9da7-e3d0fdccddd3', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/0a5301e8-3ad8-4498-9da7-e3d0fdccddd3', '209000.00', '20900.00', '10.00', '0.00', '0.00', '9000.00', '238900.00', NULL, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '153', '6', 15520, 'jne', 'JNE - REG', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-20 08:25:07', '2020-12-22 07:53:32'),
-(24, 9, 'INV/20201220/XII/XX/00007', 'cancelled', '2020-12-20 15:30:23', '2020-12-27 15:30:23', 'unpaid', '091ed796-8265-468e-846a-297793fac0c6', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/091ed796-8265-468e-846a-297793fac0c6', '82500.00', '8250.00', '10.00', '0.00', '0.00', '9000.00', '99750.00', NULL, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '79', '9', 15520, 'jne', 'JNE - REG', NULL, NULL, 1, '2020-12-21 15:36:59', 'late', NULL, '2020-12-20 08:30:23', '2020-12-21 09:01:02');
+(24, 9, 'INV/20201220/XII/XX/00007', 'cancelled', '2020-12-20 15:30:23', '2020-12-27 15:30:23', 'unpaid', '091ed796-8265-468e-846a-297793fac0c6', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/091ed796-8265-468e-846a-297793fac0c6', '82500.00', '8250.00', '10.00', '0.00', '0.00', '9000.00', '99750.00', NULL, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '79', '9', 15520, 'jne', 'JNE - REG', NULL, NULL, 1, '2020-12-21 15:36:59', 'late', NULL, '2020-12-20 08:30:23', '2020-12-21 09:01:02'),
+(34, 10, 'INV/20210317/III/XVII/00001', 'created', '2021-03-17 09:54:39', '2021-03-24 09:54:39', 'unpaid', '881f5182-8ca6-4c59-b3ea-1bfb0c0dafc7', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/881f5182-8ca6-4c59-b3ea-1bfb0c0dafc7', '82500.00', '8250.00', '10.00', '0.00', '0.00', '9000.00', '99750.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', NULL, '089662043519', 'gian@gmail.com', '151', '6', 15520, 'jne', 'JNE - REG', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-17 02:54:39', '2021-03-17 02:54:40'),
+(35, 10, 'INV/20210317/III/XVII/00002', 'created', '2021-03-17 20:05:00', '2021-03-24 20:05:00', 'unpaid', '4b6c97ee-44a1-45f6-acbd-fde4c189cbac', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/4b6c97ee-44a1-45f6-acbd-fde4c189cbac', '96800.00', '9680.00', '10.00', '0.00', '0.00', '9000.00', '115480.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', NULL, '089662043519', 'gian@gmail.com', '455', '3', 15520, 'tiki', 'TIKI - REG', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-17 13:05:00', '2021-03-17 13:05:01'),
+(36, 10, 'INV/20210317/III/XVII/00003', 'created', '2021-03-17 20:18:22', '2021-03-24 20:18:22', 'unpaid', 'c454e28c-1a02-4b60-833c-fcbd269b788a', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/c454e28c-1a02-4b60-833c-fcbd269b788a', '159500.00', '15950.00', '10.00', '0.00', '0.00', '15000.00', '190450.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', NULL, '089662043519', 'gian@gmail.com', '106', '3', 15520, 'tiki', 'TIKI - REG', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-17 13:18:22', '2021-03-17 13:18:23'),
+(41, 10, 'INV/20210318/III/XVIII/00001', 'created', '2021-03-18 10:50:50', '2021-03-25 10:50:50', 'unpaid', '0e382596-8474-4989-84e3-9783ca9061ff', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/0e382596-8474-4989-84e3-9783ca9061ff', '209000.00', '20900.00', '10.00', '0.00', '0.00', '9000.00', '238900.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, 'jne', 'JNE - CTC', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-18 03:50:50', '2021-03-18 03:50:51'),
+(44, 10, 'INV/20210324/III/XXIV/00001', 'created', '2021-03-24 09:27:05', '2021-03-31 09:27:05', 'unpaid', '66a1ab95-2268-41b8-952a-55cdbe47640a', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/66a1ab95-2268-41b8-952a-55cdbe47640a', '209000.00', '20900.00', '10.00', '0.00', '0.00', '18000.00', '247900.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, 'jne', 'JNE - CTCYES', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-24 02:27:05', '2021-03-24 02:27:06'),
+(45, 10, 'INV/20210324/III/XXIV/00002', 'created', '2021-03-24 17:37:44', '2021-03-31 17:37:44', 'unpaid', 'ff301144-ee29-4350-9173-1f4e5726d6b6', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/ff301144-ee29-4350-9173-1f4e5726d6b6', '82500.00', '8250.00', '10.00', '0.00', '0.00', '8000.00', '98750.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, 'tiki', 'TIKI - ECO', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-24 10:37:44', '2021-03-24 10:37:45'),
+(48, 10, 'INV/20210324/III/XXIV/00003', 'created', '2021-03-24 22:18:29', '2021-03-31 22:18:29', 'unpaid', '314d6562-0262-49be-b471-110d31ccef29', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/314d6562-0262-49be-b471-110d31ccef29', '375000.00', '37500.00', '10.00', '0.00', '0.00', '18000.00', '430500.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, 'jne', 'JNE - CTC', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-24 15:18:29', '2021-03-24 15:18:29'),
+(49, 10, 'INV/20210324/III/XXIV/00004', 'created', '2021-03-24 22:39:43', '2021-03-31 22:39:43', 'unpaid', '5d7d279d-afd2-4213-8e1a-9b6c25787f61', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/5d7d279d-afd2-4213-8e1a-9b6c25787f61', '75000.00', '7500.00', '10.00', '0.00', '0.00', '9000.00', '91500.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, 'jne', 'JNE - CTC', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-24 15:39:43', '2021-03-24 15:39:44'),
+(50, 10, 'INV/20210324/III/XXIV/00005', 'created', '2021-03-24 22:42:36', '2021-03-31 22:42:36', 'unpaid', '230b6cf6-8cd7-4a90-8300-047fb12a373c', 'https://app.sandbox.midtrans.com/snap/v2/vtweb/230b6cf6-8cd7-4a90-8300-047fb12a373c', '75000.00', '7500.00', '10.00', '0.00', '0.00', '9000.00', '91500.00', NULL, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, 'jne', 'JNE - CTC', NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-24 15:42:36', '2021-03-24 15:42:36');
 
 -- --------------------------------------------------------
 
@@ -368,7 +492,16 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `qty`, `base_price`, 
 (22, 21, 10, 1, '145000.00', '145000.00', '0.00', '0.00', '0.00', '0.00', '145000.00', 'SW-CT-001', 'simple', 'Sweater Pria warna hitam', '500.00', '[]', '2020-12-20 08:14:51', '2020-12-20 08:14:51'),
 (23, 22, 11, 1, '175000.00', '175000.00', '0.00', '0.00', '0.00', '0.00', '175000.00', 'GM-KR-001', 'simple', 'Gamis muslim Kimora tipe 1', '700.00', '[]', '2020-12-20 08:18:40', '2020-12-20 08:18:40'),
 (24, 23, 13, 1, '190000.00', '190000.00', '0.00', '0.00', '0.00', '0.00', '190000.00', 'GM-RN-001', 'simple', 'Gamis muslim Renata', '800.00', '[]', '2020-12-20 08:25:07', '2020-12-20 08:25:07'),
-(25, 24, 8, 1, '75000.00', '75000.00', '0.00', '0.00', '0.00', '0.00', '75000.00', 'KP-SS-001', 'simple', 'Kaos Windows', '300.00', '[]', '2020-12-20 08:30:23', '2020-12-20 08:30:23');
+(25, 24, 8, 1, '75000.00', '75000.00', '0.00', '0.00', '0.00', '0.00', '75000.00', 'KP-SS-001', 'simple', 'Kaos Windows', '300.00', '[]', '2020-12-20 08:30:23', '2020-12-20 08:30:23'),
+(44, 34, 8, 1, '75000.00', '75000.00', '0.00', '0.00', '0.00', '0.00', '75000.00', 'KP-SS-001', 'simple', 'Kaos Windows', '300.00', '[]', '2021-03-17 02:54:39', '2021-03-17 02:54:39'),
+(45, 35, 9, 1, '88000.00', '88000.00', '0.00', '0.00', '0.00', '0.00', '88000.00', 'KP-SS-002', 'simple', 'Kaos Programmer', '300.00', '[]', '2021-03-17 13:05:00', '2021-03-17 13:05:00'),
+(46, 36, 10, 1, '145000.00', '145000.00', '0.00', '0.00', '0.00', '0.00', '145000.00', 'SW-CT-001', 'simple', 'Sweater Pria warna hitam', '500.00', '[]', '2021-03-17 13:18:22', '2021-03-17 13:18:22'),
+(49, 41, 13, 1, '190000.00', '190000.00', '0.00', '0.00', '0.00', '0.00', '190000.00', 'GM-RN-001', 'simple', 'Gamis muslim Renata', '800.00', '[]', '2021-03-18 03:50:50', '2021-03-18 03:50:50'),
+(52, 44, 13, 1, '190000.00', '190000.00', '0.00', '0.00', '0.00', '0.00', '190000.00', 'GM-RN-001', 'simple', 'Gamis muslim Renata', '800.00', '[]', '2021-03-24 02:27:05', '2021-03-24 02:27:05'),
+(53, 45, 8, 1, '75000.00', '75000.00', '0.00', '0.00', '0.00', '0.00', '75000.00', 'KP-SS-001', 'simple', 'Kaos Windows', '300.00', '[]', '2021-03-24 10:37:44', '2021-03-24 10:37:44'),
+(54, 48, 8, 5, '75000.00', '375000.00', '0.00', '0.00', '0.00', '0.00', '375000.00', 'KP-SS-001', 'simple', 'Kaos Windows', '300.00', '[]', '2021-03-24 15:18:29', '2021-03-24 15:18:29'),
+(55, 49, 8, 1, '75000.00', '75000.00', '0.00', '0.00', '0.00', '0.00', '75000.00', 'KP-SS-001', 'simple', 'Kaos Windows', '300.00', '[]', '2021-03-24 15:39:43', '2021-03-24 15:39:43'),
+(56, 50, 8, 1, '75000.00', '75000.00', '0.00', '0.00', '0.00', '0.00', '75000.00', 'KP-SS-001', 'simple', 'Kaos Windows', '300.00', '[]', '2021-03-24 15:42:36', '2021-03-24 15:42:36');
 
 -- --------------------------------------------------------
 
@@ -500,8 +633,6 @@ INSERT INTO `products` (`id`, `parent_id`, `user_id`, `sku`, `type`, `name`, `sl
 (3, NULL, 1, 'SG-S9-001', 'simple', 'Samsung Galaxy S9+', 'samsung-galaxy-s9', '8500000.00', '800.00', NULL, NULL, NULL, 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old', 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.', 1, '2020-12-09 14:52:00', '2020-12-10 14:45:55'),
 (4, NULL, 1, 'JR-MU', 'configurable', 'Jersey Manchester United', 'jersey-manchester-united', NULL, NULL, NULL, NULL, NULL, 'It is a long established fact that a reader will be distracted by the readable content of a pag', 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy.', 1, '2020-12-09 15:14:46', '2020-12-10 14:36:41'),
 (5, 4, 1, 'JR-MU-2-5', 'simple', 'Jersey Manchester United - M - Merah', 'jersey-manchester-united-m-merah', '120000.00', '500.00', NULL, NULL, NULL, NULL, NULL, 1, '2020-12-09 15:14:46', '2020-12-09 15:15:23'),
-(6, 4, 1, 'JR-MU-2-7', 'simple', 'Jersey Manchester United - M - Hitam', 'jersey-manchester-united-m-hitam', '90000.00', '500.00', NULL, NULL, NULL, 'It is a long established fact that a reader will be distracted by the readable content', 'opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes', 1, '2020-12-09 15:14:46', '2020-12-11 10:46:32'),
-(7, NULL, 1, 'AP-IP-001', 'simple', 'Iphone 11 pro max', 'iphone-11-pro-max', '12000000.00', '0.40', NULL, NULL, NULL, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opp', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore al', 1, '2020-12-11 09:50:44', '2020-12-11 09:52:28'),
 (8, NULL, 1, 'KP-SS-001', 'simple', 'Kaos Windows', 'kaos-windows', '75000.00', '300.00', NULL, NULL, NULL, 'ummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard', 'It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2020-12-13 10:04:02', '2020-12-13 10:04:55'),
 (9, NULL, 1, 'KP-SS-002', 'simple', 'Kaos Programmer', 'kaos-programmer', '88000.00', '300.00', NULL, NULL, NULL, 'lt model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved', 'lt model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 1, '2020-12-13 10:06:03', '2020-12-13 10:06:56'),
 (10, NULL, 1, 'SW-CT-001', 'simple', 'Sweater Pria warna hitam', 'sweater-pria-warna-hitam', '145000.00', '500.00', NULL, NULL, NULL, 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration', 'rity have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks', 1, '2020-12-13 10:09:41', '2020-12-13 10:10:23'),
@@ -512,7 +643,6 @@ INSERT INTO `products` (`id`, `parent_id`, `user_id`, `sku`, `type`, `name`, `sl
 (15, NULL, 1, 'LP-AP-001', 'simple', 'Macbook Pro 2020 core i7', 'macbook-pro-2020-core-i7', '22500000.00', '900.00', NULL, NULL, NULL, 'opposed to using \'Content here, content here\', making it look like readable English', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 1, '2020-12-22 08:13:04', '2020-12-22 08:14:02'),
 (16, NULL, 1, 'KM-BN-001', 'simple', 'Kemeja Benhill warna biru muda M', 'kemeja-benhill-warna-biru-muda-m', '135000.00', '300.00', NULL, NULL, NULL, 'opposed to using \'Content here, content here\', making it look like readable English', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 1, '2020-12-22 08:15:52', '2020-12-22 08:16:39'),
 (17, NULL, 1, 'KM-BN-002', 'simple', 'Kemeja Benhill warna biru navy M', 'kemeja-benhill-warna-biru-navy-m', '135000.00', '400.00', NULL, NULL, NULL, 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 1, '2020-12-22 08:17:29', '2020-12-22 08:18:11'),
-(18, NULL, 1, 'PK-WH-001', 'simple', 'Baju anak atasan perempuan warna pink', 'baju-anak-atasan-perempuan-warna-pink', '89000.00', '200.00', NULL, NULL, NULL, 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 1, '2020-12-22 08:23:24', '2020-12-22 08:23:56'),
 (19, NULL, 1, 'PK-LA-001', 'simple', 'pakaian anak laki-laki satu setel', 'pakaian-anak-laki-laki-satu-setel', '120000.00', '250.00', NULL, NULL, NULL, 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 1, '2020-12-22 08:26:33', '2020-12-22 08:27:10'),
 (20, NULL, 1, 'BW-BT-001', 'simple', 'Baju batik wanita hitam biru type 1', 'baju-batik-wanita-hitam-biru-type-1', '165000.00', '300.00', NULL, NULL, NULL, 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 1, '2020-12-22 08:29:07', '2020-12-22 08:29:51'),
 (21, NULL, 1, 'BW-BT-002', 'simple', 'Baju batik wanita coklat hitam type 2', 'baju-batik-wanita-coklat-hitam-type-2', '165000.00', '300.00', NULL, NULL, NULL, 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 'The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable EnglishThe point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English', 1, '2020-12-22 08:30:19', '2020-12-22 08:30:49'),
@@ -546,9 +676,7 @@ CREATE TABLE `product_attribute_values` (
 
 INSERT INTO `product_attribute_values` (`id`, `parent_product_id`, `product_id`, `attribute_id`, `text_value`, `boolean_value`, `integer_value`, `float_value`, `datetime_value`, `date_value`, `json_value`, `created_at`, `updated_at`) VALUES
 (1, 4, 5, 1, 'M', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-09 15:14:46', '2020-12-09 15:14:46'),
-(2, 4, 5, 2, 'Merah', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-09 15:14:46', '2020-12-09 15:14:46'),
-(3, 4, 6, 1, 'M', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-09 15:14:46', '2020-12-09 15:14:46'),
-(4, 4, 6, 2, 'Hitam', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-09 15:14:46', '2020-12-09 15:14:46');
+(2, 4, 5, 2, 'Merah', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-09 15:14:46', '2020-12-09 15:14:46');
 
 -- --------------------------------------------------------
 
@@ -567,7 +695,6 @@ CREATE TABLE `product_categories` (
 --
 
 INSERT INTO `product_categories` (`id`, `product_id`, `category_id`) VALUES
-(1, 7, 6),
 (2, 3, 6),
 (3, 4, 3),
 (4, 8, 3),
@@ -587,8 +714,6 @@ INSERT INTO `product_categories` (`id`, `product_id`, `category_id`) VALUES
 (18, 16, 4),
 (19, 17, 1),
 (20, 17, 4),
-(21, 18, 11),
-(22, 18, 13),
 (23, 19, 11),
 (24, 19, 12),
 (25, 20, 8),
@@ -618,8 +743,6 @@ CREATE TABLE `product_images` (
 
 INSERT INTO `product_images` (`id`, `product_id`, `path`, `created_at`, `updated_at`) VALUES
 (1, 3, 'uploads/images/samsung-galaxy-s9_1607610741.jpg', '2020-12-10 14:32:21', '2020-12-10 14:32:21'),
-(5, 7, 'uploads/images/iphone-11-pro-max_1607680271.jpg', '2020-12-11 09:51:11', '2020-12-11 09:51:11'),
-(6, 6, 'uploads/images/jersey-manchester-united-m-hitam_1607683608.jpg', '2020-12-11 10:46:48', '2020-12-11 10:46:48'),
 (7, 5, 'uploads/images/jersey-manchester-united-m-merah_1607683636.jpg', '2020-12-11 10:47:16', '2020-12-11 10:47:16'),
 (8, 4, 'uploads/images/jersey-manchester-united_1607683671.jpg', '2020-12-11 10:47:51', '2020-12-11 10:47:51'),
 (9, 8, 'uploads/images/kaos-windows_1607853915.jpg', '2020-12-13 10:05:15', '2020-12-13 10:05:15'),
@@ -632,11 +755,9 @@ INSERT INTO `product_images` (`id`, `product_id`, `path`, `created_at`, `updated
 (16, 15, 'uploads/images/macbook-pro-2020-core-i7_1608624810.jpg', '2020-12-22 08:13:30', '2020-12-22 08:13:30'),
 (17, 16, 'uploads/images/kemeja-benhill-warna-biru-muda-m_1608624962.jpg', '2020-12-22 08:16:02', '2020-12-22 08:16:02'),
 (18, 17, 'uploads/images/kemeja-benhill-warna-biru-navy-m_1608625060.jpg', '2020-12-22 08:17:40', '2020-12-22 08:17:40'),
-(19, 18, 'uploads/images/baju-anak-atasan-perempuan-warna-pink_1608625412.jpg', '2020-12-22 08:23:32', '2020-12-22 08:23:32'),
 (20, 19, 'uploads/images/pakaian-anak-laki-laki-satu-setel_1608625602.jpeg', '2020-12-22 08:26:42', '2020-12-22 08:26:42'),
 (21, 20, 'uploads/images/baju-batik-wanita-hitam-biru-type-1_1608625760.jpg', '2020-12-22 08:29:20', '2020-12-22 08:29:20'),
-(22, 21, 'uploads/images/baju-batik-wanita-coklat-hitam-type-2_1608625828.jpg', '2020-12-22 08:30:28', '2020-12-22 08:30:28'),
-(23, 22, 'uploads/images/baju-batik-pria-lengan-pendek-type-1_1608625944.jpg', '2020-12-22 08:32:24', '2020-12-22 08:32:24');
+(22, 21, 'uploads/images/baju-batik-wanita-coklat-hitam-type-2_1608625828.jpg', '2020-12-22 08:30:28', '2020-12-22 08:30:28');
 
 -- --------------------------------------------------------
 
@@ -659,19 +780,16 @@ CREATE TABLE `product_inventories` (
 INSERT INTO `product_inventories` (`id`, `product_id`, `qty`, `created_at`, `updated_at`) VALUES
 (1, 3, 15, '2020-12-09 14:53:34', '2020-12-09 14:53:34'),
 (2, 5, 6, '2020-12-09 15:15:23', '2020-12-20 07:47:39'),
-(3, 6, 12, '2020-12-09 15:15:23', '2020-12-09 15:15:23'),
-(4, 7, 15, '2020-12-11 09:52:28', '2020-12-11 09:52:28'),
-(5, 8, 17, '2020-12-13 10:04:55', '2020-12-21 09:01:49'),
-(6, 9, 13, '2020-12-13 10:06:56', '2020-12-21 09:01:33'),
-(7, 10, 19, '2020-12-13 10:10:23', '2020-12-21 09:01:41'),
+(5, 8, 8, '2020-12-13 10:04:55', '2021-03-24 15:42:36'),
+(6, 9, 12, '2020-12-13 10:06:56', '2021-03-17 13:05:00'),
+(7, 10, 18, '2020-12-13 10:10:23', '2021-03-17 13:18:22'),
 (8, 11, 4, '2020-12-14 07:14:43', '2020-12-22 07:53:48'),
 (9, 12, 8, '2020-12-14 07:16:04', '2020-12-21 09:01:15'),
-(10, 13, 16, '2020-12-14 07:17:58', '2020-12-22 07:53:32'),
+(10, 13, 14, '2020-12-14 07:17:58', '2021-03-24 02:27:05'),
 (11, 14, 11, '2020-12-22 08:11:55', '2020-12-22 08:11:55'),
 (12, 15, 9, '2020-12-22 08:14:02', '2020-12-22 08:14:02'),
 (13, 16, 21, '2020-12-22 08:16:39', '2020-12-22 08:16:39'),
 (14, 17, 12, '2020-12-22 08:18:11', '2020-12-22 08:18:11'),
-(15, 18, 14, '2020-12-22 08:23:56', '2020-12-22 08:23:56'),
 (16, 19, 15, '2020-12-22 08:27:10', '2020-12-22 08:27:10'),
 (17, 20, 30, '2020-12-22 08:29:51', '2020-12-22 08:29:51'),
 (18, 21, 23, '2020-12-22 08:30:49', '2020-12-22 08:30:49'),
@@ -800,7 +918,16 @@ INSERT INTO `shipments` (`id`, `user_id`, `order_id`, `track_number`, `status`, 
 (8, 9, 21, NULL, 'pending', 1, 500, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '109', '9', 15520, NULL, NULL, NULL, '2020-12-20 08:14:52', '2020-12-20 08:14:52'),
 (9, 9, 22, NULL, 'pending', 1, 700, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '455', '3', 15520, NULL, NULL, NULL, '2020-12-20 08:18:41', '2020-12-20 08:18:41'),
 (10, 9, 23, NULL, 'pending', 1, 800, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '153', '6', 15520, NULL, NULL, NULL, '2020-12-20 08:25:08', '2020-12-20 08:25:08'),
-(11, 9, 24, NULL, 'pending', 1, 300, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '79', '9', 15520, NULL, NULL, NULL, '2020-12-20 08:30:23', '2020-12-20 08:30:23');
+(11, 9, 24, NULL, 'pending', 1, 300, 'Gian', 'Nurwana', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', NULL, '089662043519', 'giannrw19@gmail.com', '79', '9', 15520, NULL, NULL, NULL, '2020-12-20 08:30:23', '2020-12-20 08:30:23'),
+(12, 10, 34, NULL, 'pending', 1, 300, 'gian', 'nurwana', 'jalan kemenangan', NULL, '089662043519', 'gian@gmail.com', '151', '6', 15520, NULL, NULL, NULL, '2021-03-17 02:54:40', '2021-03-17 02:54:40'),
+(13, 10, 35, NULL, 'pending', 1, 300, 'gian', 'nurwana', 'jalan kemenangan', NULL, '089662043519', 'gian@gmail.com', '455', '3', 15520, NULL, NULL, NULL, '2021-03-17 13:05:01', '2021-03-17 13:05:01'),
+(14, 10, 36, NULL, 'pending', 1, 500, 'gian', 'nurwana', 'jalan kemenangan', NULL, '089662043519', 'gian@gmail.com', '106', '3', 15520, NULL, NULL, NULL, '2021-03-17 13:18:23', '2021-03-17 13:18:23'),
+(15, 10, 41, NULL, 'pending', 1, 800, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, NULL, NULL, NULL, '2021-03-18 03:50:51', '2021-03-18 03:50:51'),
+(16, 10, 44, NULL, 'pending', 1, 800, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, NULL, NULL, NULL, '2021-03-24 02:27:06', '2021-03-24 02:27:06'),
+(17, 10, 45, NULL, 'pending', 1, 300, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, NULL, NULL, NULL, '2021-03-24 10:37:45', '2021-03-24 10:37:45'),
+(18, 10, 48, NULL, 'pending', 5, 1500, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, NULL, NULL, NULL, '2021-03-24 15:18:29', '2021-03-24 15:18:29'),
+(19, 10, 49, NULL, 'pending', 1, 300, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, NULL, NULL, NULL, '2021-03-24 15:39:44', '2021-03-24 15:39:44'),
+(20, 10, 50, NULL, 'pending', 1, 300, 'gian', 'nurwana', 'jalan kemenangan', 'House', '089662043519', 'gian@gmail.com', '455', '3', 15520, NULL, NULL, NULL, '2021-03-24 15:42:36', '2021-03-24 15:42:36');
 
 -- --------------------------------------------------------
 
@@ -861,9 +988,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `email_verified_at`, `password`, `remember_token`, `company`, `address1`, `address2`, `province_id`, `city_id`, `postcode`, `created_at`, `updated_at`) VALUES
-(1, 'Administrator', NULL, 'admin@gmail.com', NULL, '2020-12-09 14:43:34', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'naYpI3ChLg8z71Rq0D6giT7InK9UMmRjFszzJESK1FrtoD9hxgWU0xyP03ln', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-09 14:43:34', '2020-12-09 14:43:34'),
+(1, 'Administrator', NULL, 'admin@gmail.com', NULL, '2020-12-09 14:43:34', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'UJQAQ6Bi9Jz5sJ80ZQl7UJge5S0VfO1nsoOr2U2OeytXrR2OWk2oY0DrqwmI', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-09 14:43:34', '2020-12-09 14:43:34'),
 (2, 'Operator', NULL, 'operator@gmail.com', NULL, '2020-12-09 14:43:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '9Z3LJSDbCJLMNhX4lBCaVtesEAZIoUZawkGxsVDx838Lqcrx714vqqroBk2Q', NULL, NULL, NULL, NULL, NULL, NULL, '2020-12-09 14:43:35', '2020-12-09 14:43:35'),
-(9, 'Gian', 'Nurwana', 'giannrw19@gmail.com', '089662043519', NULL, '$2y$10$8KM2vkDwhavps7vkIJjAfuqtYLAKIIOKClx.F.vH6R/grpeUbQ/EW', NULL, 'Nurwana TECH', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', 'House', 3, 455, 15520, '2020-12-14 07:22:03', '2020-12-22 04:18:38');
+(9, 'Gian', 'Nurwana', 'giannrw19@gmail.com', '089662043519', NULL, '$2y$10$8KM2vkDwhavps7vkIJjAfuqtYLAKIIOKClx.F.vH6R/grpeUbQ/EW', NULL, 'Nurwana TECH', 'Kp Pisangan Desa Sarakan Kec. Sepatan Kab. Tangerang', 'House', 3, 455, 15520, '2020-12-14 07:22:03', '2020-12-22 04:18:38'),
+(10, 'gian', 'nurwana', 'gian@gmail.com', '089662043519', NULL, '$2y$10$m7g/qYbLD/JSqz8icnRJqedh2Zmd5LLvRhynkiB6R61bvSloCuJTa', NULL, 'San Tech', 'jalan kemenangan', 'House', 3, 455, 15520, '2021-03-16 13:37:56', '2021-03-18 02:36:21'),
+(11, 'Gita', 'Safitri', 'gita@gmail.com', NULL, NULL, '$2y$10$sQcSIf8uK.uBeH/OjSYEouL1jAfEjqrAOLhoc0X96l1R.u1o3zoya', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-22 03:13:49', '2021-03-22 03:13:49'),
+(12, 'Lidya', 'andini', 'lidya@gmail.com', NULL, NULL, '$2y$10$1PZTPei3YShngklQxGsQHuGfmy453olAcYLPcpm6qm5kJFE0ixTdW', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2021-03-22 03:15:08', '2021-03-22 03:15:08');
 
 --
 -- Indexes for dumped tables
@@ -929,6 +1059,40 @@ ALTER TABLE `model_has_permissions`
 ALTER TABLE `model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `oauth_access_tokens`
+--
+ALTER TABLE `oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_auth_codes`
+--
+ALTER TABLE `oauth_auth_codes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_auth_codes_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oauth_refresh_tokens`
+--
+ALTER TABLE `oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
 
 --
 -- Indexes for table `orders`
@@ -1073,7 +1237,7 @@ ALTER TABLE `attribute_options`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1091,25 +1255,31 @@ ALTER TABLE `favorites`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+
+--
+-- AUTO_INCREMENT for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -1127,31 +1297,31 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `product_attribute_values`
 --
 ALTER TABLE `product_attribute_values`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `product_inventories`
 --
 ALTER TABLE `product_inventories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -1163,7 +1333,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `shipments`
 --
 ALTER TABLE `shipments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `slides`
@@ -1175,7 +1345,7 @@ ALTER TABLE `slides`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables

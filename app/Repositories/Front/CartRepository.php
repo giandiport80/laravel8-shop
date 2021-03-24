@@ -217,6 +217,26 @@ class CartRepository implements CartRepositoryInterface
     }
 
     /**
+     * getBaseTotalPrice
+     * total harga sebelum ditambahkan pajak dan ongkir
+     *
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getBaseTotalPrice($sessionKey = null)
+    {
+        $items = $this->getContent($sessionKey);
+
+        $baseTotalPrice = 0;
+
+        foreach ($items as $item) {
+            $baseTotalPrice += $item->getPriceSum();
+        }
+
+        return $baseTotalPrice;
+    }
+
+    /**
      * getTotal
      *
      * @return void
@@ -228,6 +248,21 @@ class CartRepository implements CartRepositoryInterface
         }
 
         return CartFacade::getTotal();
+    }
+
+    /**
+     * getTotalQuantity
+     *
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getTotalQuantity($sessionKey = null)
+    {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->getTotalQuantity();
+        }
+
+        return CartFacade::getTotalQuantity();
     }
 
     /**
@@ -319,8 +354,11 @@ class CartRepository implements CartRepositoryInterface
     public function clear($sessionKey = null)
     {
         if ($sessionKey) {
+            CartFacade::session($sessionKey)->clearCartConditions();
             return CartFacade::session($sessionKey)->clear();
         }
+
+        CartFacade::clearCartConditions();
 
         return CartFacade::clear();
     }
@@ -336,7 +374,24 @@ class CartRepository implements CartRepositoryInterface
     {
         if ($sessionKey) {
             return CartFacade::session($sessionKey)->getCondition($name);
-        }
+        };
+
+        return CartFacade::getCondition($name);
+    }
+
+    /**
+     * getCondition
+     * sama seperti getcondition value, cuma lebih sederhana
+     *
+     * @param  mixed $name
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getCondition($name, $sessionKey = null)
+    {
+        if ($sessionKey) {
+            return CartFacade::session($sessionKey)->getCondition($name);
+        };
 
         return CartFacade::getCondition($name);
     }

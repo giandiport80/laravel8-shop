@@ -92,12 +92,28 @@ interface CartRepositoryInterface
     public function getTotalWeight($sessionKey = null);
 
     /**
+     * getBaseTotalPrice
+     *
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getBaseTotalPrice($sessionKey = null);
+
+    /**
      * getTotal
      *
      * @param  mixed $sessionKey
      * @return void
      */
     public function getTotal($sessionKey = null);
+
+    /**
+     * getTotalQuantity
+     *
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getTotalQuantity($sessionKey = null);
 
     /**
      * getSubTotal
@@ -141,4 +157,13 @@ interface CartRepositoryInterface
      * @return void
      */
     public function getConditionValue($name, $sessionKey = null);
+
+    /**
+     * getCondition
+     *
+     * @param  mixed $name
+     * @param  mixed $sessionKey
+     * @return void
+     */
+    public function getCondition($name, $sessionKey = null);
 }

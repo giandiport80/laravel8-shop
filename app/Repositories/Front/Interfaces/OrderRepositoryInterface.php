@@ -26,7 +26,8 @@ interface OrderRepositoryInterface
      * saveOrder
      *
      * @param  mixed $params
+     * @param  mixed $sessionKey
      * @return void
      */
-    public function saveOrder($params);
+    public function saveOrder($params, $sessionKey = null);
 }
